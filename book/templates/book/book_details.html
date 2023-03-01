@@ -1,0 +1,46 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} {{book.title }} {% endblock title %}
+
+
+{% block body %}
+
+<section>
+
+    <header class="main">
+        <h1>{{ book.title }}</h1>
+        <h4>{{ book.author }}</h4>
+    </header>
+
+    <hr class="major">
+    <div class="row">
+        <div class="col-8">
+            <ol>
+                {% for chapter in book.chapters.all %}
+                    <li><a href="{% url 'book:chapter_details' pk=chapter.id %}">{{ chapter.title }}</a></li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="col-4">
+            <a href="{% url 'book:chapter_create' book_id=book.id %}"><button class="button primary">Add New Chapter</button></a>
+        </div>
+    </div>
+</section>
+
+{% endblock body %}
+
+{% block page_specific_js %}
+<script src="{% static 'js/base.js'%}"></script>
+<script>
+    var book_details = function () {
+
+        return {
+        }
+    }();
+
+
+</script>
+
+{% endblock page_specific_js %}

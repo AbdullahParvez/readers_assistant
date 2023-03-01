@@ -1,0 +1,226 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} Create Article {% endblock title %}
+{% block page_specific_css %}
+<style>
+    .solid {
+        color: rgb(223, 81, 81);
+    }
+</style>
+{% endblock page_specific_css %}
+
+{% block body %}
+
+<section>
+
+    <header class="main">
+        <h1>{{ object.title }}</h1>
+    </header>
+
+    <hr class="major">
+    <div class="row">
+        <div id="div_content" class="col-8 p-1">
+            <p id="content">{{ object.content|safe }}</p>
+        </div>
+        <div class="col-4" style="border: .2rem solid;">
+            <h2>Meaning</h2>
+            <div class='col' id="meanings">
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{{ object.id|json_script:"article_id" }}
+{{ favourite_word_list|json_script:"favourite_word_list" }}
+{{ meaning_list|json_script:"meaning_list" }}
+<div id="get_word_meaning_url" data-get-word-meaning-url="{% url 'get_word_meaning' %}" type="hidden"></div>
+<div id="set_favourite_url" data-set-favourite-url="{% url 'article:set_favourites' %}" type="hidden"></div>
+
+{% endblock body %}
+
+{% block page_specific_js %}
+<script src="{% static 'js/base.js'%}"></script>
+<script>
+
+    // function getMeaning(e) {
+    //     let data = window.getSelection().toString();
+    //     // console.log(document.selection.createRange().text);
+    //     console.log(data);
+    // }
+
+
+    var article_details = function () {
+
+        let meaning_list=JSON.parse(document.getElementById('meaning_list').textContent);
+
+        function getMeaning(e) {
+            e.preventDefault();
+            let word = window.getSelection().toString();
+            console.log(word);
+            if (word) {
+                const data = {
+                    'word': word,
+                };
+                // console.log(data)
+                const url = document.getElementById('get_word_meaning_url').getAttribute("data-get-word-meaning-url");
+                fetch(url, {
+                    method: "POST",
+                    credentials: "same-origin",
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                        "X-CSRFToken": base.csrftoken,
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('success');
+                    console.log(data.context.meanings);
+                    let meaning_div =document.getElementById('meanings');
+                    meaning_div.innerHTML = '';
+                    const meanings = data.context.meanings;
+                    if (meanings){
+                        for (let i=0; i<meanings.length; i++){
+                            let icon_class;
+                            if (article_details.meaning_list.includes(meanings[i].k_ele)){
+                                icon_class = 'icon fa-regular fa-star solid';
+                            } else{
+                                icon_class = 'icon fa-regular fa-star'
+                            }
+                            let meaning_content_div = document.createElement('div');
+                            meaning_content_div.className = 'row';
+
+                            let heading_div = document.createElement('div');
+                            heading_div.className = 'col-10';
+                            let heading = document.createElement('h3');
+                            heading.innerText = meanings[i].k_ele;
+                            heading_div.appendChild(heading);
+
+                            let icon_div = document.createElement('div');
+                            icon_div.className = 'col-2';
+                            let selected_word_p = document.createElement('p');
+                            selected_word_p.innerText = meanings[i].k_ele+'&'+word;
+                            selected_word_p.style.display='none';
+
+                            let checkebox = document.createElement('span');
+                            checkebox.style.float = 'left';
+                            checkebox.innerHTML = "<i class='"+icon_class+"' style='font-size: 1.7rem;'"+
+                            "onClick='article_details.makeFavourite(this);'></i>";
+                            icon_div.appendChild(selected_word_p);
+                            icon_div.appendChild(checkebox);
+
+                            meaning_content_div.appendChild(heading_div);
+                            meaning_content_div.appendChild(icon_div);
+
+                            let sub_heading = document.createElement('h5');
+                            sub_heading.innerText = meanings[i].r_ele
+
+                            senses = meanings[i].sense
+                            let def_list = document.createElement('ol')
+                            for (let j=0; j<senses.length; j++){
+                                let list = document.createElement('li');
+                                let def_div = document.createElement('div');
+                                def_div.className = 'col p-1';
+                                let desc_div = document.createElement('div');
+                                let desc_span = document.createElement('span');
+                                desc_span.style.fontSize = '1.25rem';
+                                let word_meaning = senses[j].meaning.toString();
+                                desc_span.innerHTML = word_meaning.replace(/,/g, ', ');
+                                desc_div.appendChild(desc_span);
+                                let pos_div = document.createElement('div');
+                                let pos_span = document.createElement('span');
+                                pos_span.style.fontSize = '0.9rem'
+                                let word_pos = senses[j].pos.toString();
+                                pos_span.innerHTML = word_pos.replace(/,/g, ', ');
+                                pos_div.appendChild(pos_span);
+                                def_div.appendChild(desc_div);
+                                def_div.appendChild(pos_div);
+                                list.appendChild(def_div);
+                                def_list.appendChild(list);
+                            }
+                            meaning_div.appendChild(meaning_content_div);
+                            meaning_div.appendChild(sub_heading);
+                            meaning_div.appendChild(def_list);
+                        }
+                    }else{
+                        meaning_div.innerHTML = '<p>There is no meaning to the selected part.'
+                            +'Please try selecting the word before or after the selected part.</p>'
+                    }
+
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    message = "問題が起こりました。もう一度お願いします。";
+                    // base.alert_message(message);
+                    console.log(message);
+                    return;
+                });
+            }
+        }
+
+        function makeFavourite(checkbox){
+            checkbox.classList.toggle('solid');
+            // console.log('Fvadjdf');
+            let article_id = JSON.parse(document.getElementById('article_id').textContent);
+            let favourite_text = checkbox.parentNode.previousSibling.innerText.split('&');
+            let favourite_meaning = favourite_text[0];
+            let selected_text = favourite_text[1];
+            // console.log(favourite_meaning, selected_text);
+            const data = {
+                'article_id': article_id,
+                'selected_word':selected_text,
+                'meaning':favourite_meaning,
+            };
+            const url = document.getElementById('set_favourite_url').getAttribute("data-set-favourite-url");
+            fetch(url, {
+                method: "POST",
+                credentials: "same-origin",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRFToken": base.csrftoken,
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // console.log('success');
+                location.reload();
+            })
+            .catch((error) => {
+                // console.error('Error:', error);
+                message = "問題が起こりました。もう一度お願いします。";
+                // base.alert_message(message);
+                // console.log(message);
+                return;
+            });
+
+        }
+
+        return {
+            meaning_list,meaning_list,
+            getMeaning: getMeaning,
+            makeFavourite:makeFavourite
+        }
+    }();
+
+    document.onmouseup = article_details.getMeaning;
+
+    window.onload = function () {
+        let favourite_word_list = JSON.parse(document.getElementById('favourite_word_list').textContent);
+        let content_div = document.getElementById('div_content')
+        let content = document.getElementById('content').innerHTML;
+        for (let i=0; i<favourite_word_list.length; i++){
+            // console.log(favourite_word_list[i]);
+            content = content.replaceAll(favourite_word_list[i],
+            "<span style='color:red;text-decoration: underline;'>"+favourite_word_list[i]+"</span>")
+        }
+        // console.log(content);
+        content_div.innerHTML=content;
+    };
+
+</script>
+
+{% endblock page_specific_js %}
