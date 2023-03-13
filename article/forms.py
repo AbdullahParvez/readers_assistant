@@ -14,7 +14,6 @@ class ArticleForm(forms.ModelForm):
         ]
 
     title = forms.CharField(widget=forms.TextInput())
-    content = forms.Textarea()
 
 
 # def __init__(self, *args, **kwargs):

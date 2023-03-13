@@ -1,8 +1,10 @@
 from django.db import models
 from tinymce.models import HTMLField
-
+from django.contrib.auth import get_user_model
+user = get_user_model()
 
 class Book(models.Model):
+    user = models.ForeignKey(user, on_delete=models.CASCADE, related_name='books')
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=100, null=True, blank=True)
 
@@ -18,12 +20,18 @@ class Chapter(models.Model):
 
 
 class Note(models.Model):
-    book = models.ForeignKey('Book', on_delete=models.CASCADE, related_name='notes')
+    chapter = models.ForeignKey('Chapter', on_delete=models.CASCADE, related_name='notes')
     title = models.CharField(max_length=255)
-    content = models.TextField()
+    content = HTMLField()
+
+    def __str__(self) -> str:
+        return self.title
 
 
 class Favourite(models.Model):
-    book = models.ForeignKey('Book', on_delete=models.CASCADE, related_name='favourites')
+    chapter = models.ForeignKey('Chapter', on_delete=models.CASCADE, related_name='favourites')
     word = models.CharField(blank=True, null=True, max_length=100)
     meaning = models.CharField(blank=True, null=True, max_length=255)
+
+    def __str__(self) -> str:
+        return self.word

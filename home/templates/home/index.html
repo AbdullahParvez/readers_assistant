@@ -13,41 +13,11 @@
 	<div class="row">
 		<div class="col-8">
 			<header class="major">
-				<h2>Article</h2>
-			</header>
-		</div>
-		<div class="col-4">
-			<a href="{% url 'article:create_article' %}"><button class="button primary" style="float:right">Create</button></a>
-		</div>
-	</div>
-
-	<div class="posts">
-
-		{% for article in article_list %}
-		<article>
-			<!-- <a href="#" class="image"><img src="media/images/pic01.jpg" alt="" /></a> -->
-			<h3>{{ article.title }}</h3>
-			<p>{{ article.content }}</p>
-			<ul class="actions">
-				<li><a href="{% url 'article:view_article' pk=article.id %}" class="button">Read</a></li>
-			</ul>
-		</article>
-		{% endfor %}
-
-
-
-	</div>
-</section>
-
-<section>
-	<div class="row">
-		<div class="col-8">
-			<header class="major">
 				<h2>Book</h2>
 			</header>
 		</div>
 		<div class="col-4">
-			<button class="button primary" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+			<button class="button primary" data-bs-toggle="modal" data-bs-target="#bookModal">
 				Create
 			  </button>
 		</div>
@@ -58,7 +28,7 @@
 		{% for book in book_list %}
 		<article>
 			<a href="#" class="image"><img src="media/images/pic01.jpg" alt="" /></a>
-			<h3>{{ book.title }}</h3>
+			<h4>{{ book.title }}</h4>
 			<h5>{{ book.author }}</h5>
 			<ul class="actions">
 				<li><a href="{% url 'book:details' id=book.id %}" class="button">Read</a></li>
@@ -68,12 +38,40 @@
 	</div>
 </section>
 
+<section>
+	<div class="row">
+		<div class="col-8">
+			<header class="major">
+				<h2>Article</h2>
+			</header>
+		</div>
+		<div class="col-4">
+			<a href="{% url 'article:create_article' %}"><button class="button primary" style="float:right">Create</button></a>
+		</div>
+	</div>
+
+	<div class="posts">
+		<article>
+			<ul>
+				{% for article in article_list %}
+				<li><a href="{% url 'article:view_article' pk=article.id %}"><h4>{{ article.title }}</h4></a></li>
+				<!-- <a href="#" class="image"><img src="media/images/pic01.jpg" alt="" /></a> -->
+				<!-- <li><a href="{% url 'article:view_article' pk=article.id %}" class="button"><h4>{{ article.title }}</h4></a></li> -->
+				<!-- <ul class="actions">
+					<li><a href="{% url 'article:view_article' pk=article.id %}" class="button">Read</a></li>
+				</ul> -->
+				{% endfor %}
+			</ul>
+		</article>
+	</div>
+</section>
+
 <!-- Vertically centered modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterLabel" aria-hidden="true">
+<div class="modal fade" id="bookModal" tabindex="-1" aria-labelledby="bookModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
 	  <div class="modal-content">
 		<div class="modal-header">
-		  <h5 class="modal-title" id="exampleModalCenterLabel">Create Book</h5>
+		  <h5 class="modal-title" id="bookModalLabel">Create Book</h5>
 		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		</div>
 
@@ -100,7 +98,7 @@
 		</div>
 	  </div>
 	</div>
-  </div>
+</div>
 
 {% block page_specific_js %}
 

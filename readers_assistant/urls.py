@@ -7,7 +7,9 @@ from .views import get_word_meaning
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('accounts/', include('django.contrib.auth.urls')),
     path('tinymce/', include('tinymce.urls')),
+    path('user/', include('user.urls')),
     path('', include('home.urls')),
     path('article/', include('article.urls')),
     path('book/', include('book.urls')),

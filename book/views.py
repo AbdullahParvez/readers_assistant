@@ -5,13 +5,14 @@ from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.views.generic import DetailView
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 
 from sudachipy import tokenizer
 from sudachipy import dictionary
 
 from .forms import ChapterForm, BookForm
-from .models import Book, Chapter, Favourite
+from .models import Book, Chapter, Favourite, Note
 from jmdict.models import Dictionary_Entry, Sense, Example
 
 from mongoengine import *
@@ -29,13 +30,16 @@ mode = tokenizer.Tokenizer.SplitMode.A
 #         self.object.save()
 #         return redirect("home:home")
 
+@login_required
 def create_book(request):
     if request.method == "POST":
         title = request.POST['title']
-        Book.objects.get_or_create(title=title)
+        author = request.POST['author']
+        Book.objects.get_or_create(title=title, author=author, user=request.user)
         return redirect("home:home")
 
 
+@login_required
 def details_book(request, id):
     '''rendering home view'''
     book = Book.objects.filter(id=id)[0]
@@ -48,7 +52,7 @@ def details_book(request, id):
 
 
 
-class ChapterCreate(CreateView):
+class ChapterCreate(LoginRequiredMixin, CreateView):
     form_class = ChapterForm
     template_name = 'book/chapter_create.html'
 
@@ -61,24 +65,28 @@ class ChapterCreate(CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.save()
-        return redirect("home:home")
+        return redirect("book:chapter_details", pk=self.object.id)
 
-class ChapterDetails(DetailView):
+def sorting(lst):
+    lst2 = sorted(lst, key=len, reverse=True)
+    return lst2   
+
+class ChapterDetails(LoginRequiredMixin, DetailView):
     model = Chapter
     template_name = 'book/chapter_details.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # chapter = self.get_queryset()
-        # print(chapter)
         favourite_word_list = []
         meaning_list = []
-        for favourite in self.object.book.favourites.all():
+        for favourite in self.object.favourites.all():
             favourite_word_list.append(favourite.word)
             meaning_list.append(favourite.meaning)
-        # print(favourite_word_list)
-        # print(meaning_list)
-        context["favourite_word_list"] = favourite_word_list
+        note_list = []
+        for note in self.object.notes.all():
+            note_list.append(note.title)
+        context["note_list"] = sorting(note_list)
+        context["favourite_word_list"] = sorting(favourite_word_list)
         context["meaning_list"] = meaning_list
 
         return context
@@ -94,14 +102,65 @@ class ChapterDetails(DetailView):
         return render(request, template_name, context)
 
 
-
+@login_required
 def add_favourite_word(request):
     if request.method == "POST":
         data = json.load(request)
-        book_id = data["book_id"]
-        book = Book.objects.get(id=book_id)
+        chapter_id = data["chapter_id"]
+        chapter = Chapter.objects.get(id=chapter_id)
         selected_word = data["selected_word"]
         meaning = data["meaning"]
-        Favourite.objects.get_or_create(book=book, word=selected_word, meaning=meaning)
-
+        Favourite.objects.get_or_create(chapter=chapter, word=selected_word, meaning=meaning)
         return JsonResponse({"success": True}, status=200)
+    
+
+@login_required
+def remove_from_favourite_word(request):
+    print('What happend')
+    if request.method == "POST":
+        print('What happend')
+        data = json.load(request)
+        chapter = Chapter.objects.get(id=data['chapter_id'])
+        word = data['selected_word']
+        print(Favourite.objects.filter(chapter=chapter, word=word))
+        Favourite.objects.filter(chapter=chapter, word=word).delete()
+        return JsonResponse({"success": True}, status=200)
+    return JsonResponse({"success": False}, status=400)
+    
+
+@login_required
+def create_note(request):
+    if request.method == "POST":
+        data = json.load(request)
+        chapter_id = data["chapter_id"]
+        chapter = Chapter.objects.get(id=chapter_id)
+        word = data['word']
+        content = data['content']
+        Note.objects.get_or_create(chapter=chapter, title=word, content=content)
+        return JsonResponse({"success": True}, status=200)
+
+@login_required
+def get_note(request):
+    if request.method == "POST":
+        context = {}
+        data = json.load(request)
+        chapter = Chapter.objects.get(id=data['chapter_id'])
+        word = data['word']
+        note = Note.objects.filter(chapter=chapter, title=word)
+        if note:
+            context['content'] = note[0].content
+        else:
+            context['content'] = ''
+        return JsonResponse({"success": True, 'context': context}, status=200)
+    return JsonResponse({"success": False}, status=400)
+
+
+@login_required
+def delete_note(request):
+    if request.method == "POST":
+        data = json.load(request)
+        chapter = Chapter.objects.get(id=data['chapter_id'])
+        word = data['word']
+        Note.objects.filter(chapter=chapter, title=word).delete()
+        return JsonResponse({"success": True}, status=200)
+    return JsonResponse({"success": False}, status=400)

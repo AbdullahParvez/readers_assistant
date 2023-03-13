@@ -1,15 +1,21 @@
 from django.db import models
-
+from tinymce.models import HTMLField
+from django.contrib.auth import get_user_model
+user = get_user_model()
 
 class Article(models.Model):
+    user = models.ForeignKey(user, on_delete=models.CASCADE, related_name='articles')
     title = models.CharField(max_length=255)
-    content = models.TextField()
+    content = HTMLField()
+
+    def __str__(self) -> str:
+        return self.title
 
 
 class Note(models.Model):
     article = models.ForeignKey('Article', on_delete=models.CASCADE, related_name='notes')
     title = models.CharField(max_length=255)
-    content = models.TextField()
+    content = HTMLField()
 
 
 class Favourite(models.Model):

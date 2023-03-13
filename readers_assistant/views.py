@@ -29,6 +29,7 @@ def get_word_meaning(request):
             meaning = get_meaning(result)
         else:
             # print('No result tokenize start')
+            # print(data['word'].dictionary_form())
             m = tokenizer_obj.tokenize(data['word'], mode)[0]
             word = m.dictionary_form()
             if word:
