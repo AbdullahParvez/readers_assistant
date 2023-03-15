@@ -67,16 +67,33 @@ def add_favourite_word(request):
         Favourite.objects.get_or_create(article=article, word=selected_word, meaning=meaning)
 
         return JsonResponse({"success": True}, status=200)
-    
+
 
 @login_required
-def create_note(request, article_id):
+def remove_from_favourite_word(request):
+    # print('What happend')
     if request.method == "POST":
+        # print('What happend')
+        data = json.load(request)
+        article = Article.objects.get(id=data['article_id'])
+        word = data['selected_word']
+        # print(Favourite.objects.filter(article=article, word=word))
+        Favourite.objects.filter(article=article, word=word).delete()
+        return JsonResponse({"success": True}, status=200)
+    return JsonResponse({"success": False}, status=400)
+
+
+@login_required
+def create_note(request):
+    if request.method == "POST":
+        data = json.load(request)
+        article_id = data["article_id"]
         article = Article.objects.get(id=article_id)
-        word = request.POST['word']
-        content = request.POST['content']
+        word = data['word']
+        content = data['content']
         Note.objects.get_or_create(article=article, title=word, content=content)
-        return redirect("article:view_article", pk=article_id)
+        return JsonResponse({"success": True}, status=200)
+    return JsonResponse({"success": False}, status=400)
 
 
 def get_note(request):
@@ -94,4 +111,15 @@ def get_note(request):
         else:
             context['content'] = ''
         return JsonResponse({"success": True, 'context': context}, status=200)
+    return JsonResponse({"success": False}, status=400)
+
+
+@login_required
+def delete_note(request):
+    if request.method == "POST":
+        data = json.load(request)
+        article = Article.objects.get(id=data['article_id'])
+        word = data['word']
+        Note.objects.filter(article=article, title=word).delete()
+        return JsonResponse({"success": True}, status=200)
     return JsonResponse({"success": False}, status=400)

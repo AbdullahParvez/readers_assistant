@@ -142,11 +142,6 @@
 </div>
 
 
-<!-- {% for word in favourite_word_list %}
-    {{ word.word }}
-{% endfor %} -->
-
-
 {{ object.id|json_script:"chapter_id" }}
 {{ favourite_word_list|json_script:"favourite_word_list" }}
 {{ note_list|json_script:"note_list" }}
@@ -171,13 +166,13 @@
         let marked_word_list = [];
 
 
-        function removeItemOnce(arr, value) {
-            let index = arr.indexOf(value);
-            if (index > -1) {
-                arr.splice(index, 1);
-            }
-            return arr;
-        }
+        // function removeItemOnce(arr, value) {
+        //     let index = arr.indexOf(value);
+        //     if (index > -1) {
+        //         arr.splice(index, 1);
+        //     }
+        //     return arr;
+        // }
 
         function replace_word(word, color){
             let content_div = document.getElementById('content')
@@ -190,8 +185,7 @@
             content_div.innerHTML=content;
         }
 
-        function initialize(favourite_word=false, note=false){
-            
+        function initialize(favourite_word=false, note=false){            
             if (favourite_word){
                 for (let i=0; i<chapter_details.favourite_word_list.length; i++){
                     chapter_details.replace_word(chapter_details.favourite_word_list[i], 'SteelBlue');
@@ -482,14 +476,18 @@
                         heading.className = "icon_heading";
                         heading.innerText = word;
                         heading_div.appendChild(heading);
-
+                        // console.log('how are you');
                         let icon_div = document.createElement('div');
+                        let icon_class = 'icon fa-minus-square fa-2x solid';
+                        let delete_function = "chapter_details.deleteNote('"+word+"');";
                         icon_div.className = 'col-3';
-                        let element = document.createElement("i");
-                        element.onclick = function () { chapter_details.deleteNote(word); };
-                        element.className = 'icon fa-minus-square fa-2x solid';
-                        // button.appendChild(element);
-                        icon_div.appendChild(element);
+                        icon_div.innerHTML = "<i class='"+icon_class+"' style='font-size: 1.7rem;'"+
+                            "onClick="+delete_function+"></i>";
+                        // let element = document.createElement("i");
+                        // element.className = 'icon fa-minus-square fa-2x solid';
+                        // element.onClick = function () { chapter_details.deleteNote(word); };
+                        // // button.appendChild(element);
+                        // icon_div.appendChild(element);
                         title_div.appendChild(heading_div);
                         title_div.appendChild(icon_div);
                         let span = document.createElement('span');
@@ -521,7 +519,6 @@
         }
 
         function deleteNote(word){
-            e.preventDefault();
             const data = {
                 'chapter_id':chapter_id,
                 'word': word,
