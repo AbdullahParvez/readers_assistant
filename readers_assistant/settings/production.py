@@ -1,7 +1,7 @@
 from .base import *
 
 DEBUG = config("DEBUG", cast=bool)
-ALLOWED_HOSTS = ['ip-address', 'www.your-website.com']
+ALLOWED_HOSTS = ['172.104.96.104']
 
 DATABASES = {
     "default": {
