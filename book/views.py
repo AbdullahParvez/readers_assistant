@@ -78,16 +78,18 @@ class ChapterDetails(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         favourite_word_list = []
-        meaning_list = []
+        # meaning_list = []
         for favourite in self.object.favourites.all():
-            favourite_word_list.append(favourite.word)
-            meaning_list.append(favourite.meaning)
+            favourite_word_list.append(favourite.get_str())
+            # meaning_list.append(favourite.meaning)
         note_list = []
         for note in self.object.notes.all():
             note_list.append(note.title)
+        # print(favourite_word_list)
+        # print(meaning_list)
         context["note_list"] = sorting(note_list)
         context["favourite_word_list"] = sorting(favourite_word_list)
-        context["meaning_list"] = meaning_list
+        # context["meaning_list"] = meaning_list
 
         return context
 
@@ -108,22 +110,20 @@ def add_favourite_word(request):
         data = json.load(request)
         chapter_id = data["chapter_id"]
         chapter = Chapter.objects.get(id=chapter_id)
-        selected_word = data["selected_word"]
-        meaning = data["meaning"]
-        Favourite.objects.get_or_create(chapter=chapter, word=selected_word, meaning=meaning)
+        word = data["word"]
+        no = data["no"]
+        Favourite.objects.get_or_create(chapter=chapter, word=word, no=no)
         return JsonResponse({"success": True}, status=200)
     
 
 @login_required
 def remove_from_favourite_word(request):
-    print('What happend')
     if request.method == "POST":
-        print('What happend')
         data = json.load(request)
         chapter = Chapter.objects.get(id=data['chapter_id'])
-        word = data['selected_word']
-        print(Favourite.objects.filter(chapter=chapter, word=word))
-        Favourite.objects.filter(chapter=chapter, word=word).delete()
+        word = data['word']
+        no = data['no']
+        Favourite.objects.filter(chapter=chapter, word=word, no=no).delete()
         return JsonResponse({"success": True}, status=200)
     return JsonResponse({"success": False}, status=400)
     

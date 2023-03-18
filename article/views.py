@@ -33,16 +33,13 @@ class ArticleView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         favourite_word_list = []
-        meaning_list = []
         for favourite in self.object.favourites.all():
-            favourite_word_list.append(favourite.word)
-            meaning_list.append(favourite.meaning)
+            favourite_word_list.append(favourite.get_str())
         note_list = []
         for note in self.object.notes.all():
             note_list.append(note.title)
-        context["favourite_word_list"] = sorting(favourite_word_list)
         context["note_list"] = sorting(note_list)
-        context["meaning_list"] = meaning_list
+        context["favourite_word_list"] = sorting(favourite_word_list)
 
         return context
 
@@ -62,23 +59,21 @@ def add_favourite_word(request):
         data = json.load(request)
         article_id = data["article_id"]
         article = Article.objects.get(id=article_id)
-        selected_word = data["selected_word"]
-        meaning = data["meaning"]
-        Favourite.objects.get_or_create(article=article, word=selected_word, meaning=meaning)
+        word = data["word"]
+        no = data["no"]
+        Favourite.objects.get_or_create(article=article, word=word, no=no)
 
         return JsonResponse({"success": True}, status=200)
 
 
 @login_required
 def remove_from_favourite_word(request):
-    # print('What happend')
     if request.method == "POST":
-        # print('What happend')
         data = json.load(request)
         article = Article.objects.get(id=data['article_id'])
-        word = data['selected_word']
-        # print(Favourite.objects.filter(article=article, word=word))
-        Favourite.objects.filter(article=article, word=word).delete()
+        word = data['word']
+        no = data['no']
+        Favourite.objects.filter(article=article, word=word, no=no).delete()
         return JsonResponse({"success": True}, status=200)
     return JsonResponse({"success": False}, status=400)
 

@@ -10,47 +10,43 @@ from sudachipy import dictionary
 from jmdict.models import Dictionary_Entry, Sense, Example
 
 from mongoengine import *
+from mongoengine.queryset.visitor import Q
 
 connect('jmdict')
 tokenizer_obj = dictionary.Dictionary(dict_type='core').create()
-mode = tokenizer.Tokenizer.SplitMode.A
+mode = tokenizer.Tokenizer.SplitMode.C
 
 def get_word_meaning(request):
     if request.method == "POST":
         context = {}
+        # import time
+        # start = time.time()
         data = json.load(request)
-        # print(data['word'])
-        result = Dictionary_Entry.objects(k_ele__exact=data['word'])
-        meaning = None
-        # print(result)
-        if result:
-            # print(result)
-            # result = jam.lookup(data['word'])
-            meaning = get_meaning(result)
-        else:
-            # print('No result tokenize start')
-            # print(data['word'].dictionary_form())
-            m = tokenizer_obj.tokenize(data['word'], mode)[0]
-            word = m.dictionary_form()
-            if word:
-                if '覚まし' in data['word'] and 'し'==data['word'][-1]:
-                    word = data['word'].replace('覚まし','覚ます')
-            result = Dictionary_Entry.objects(k_ele__exact=word)
-            if result:
-                meaning = get_meaning(result)
-            else:
-                # print('None')
-                pass
-        # context['constructions_with_budget'] = constructions_with_budget
+        selelected_text = data['word']
+        result = Dictionary_Entry.objects(Q(k_ele__exact=selelected_text)|Q(r_ele__exact=selelected_text))
+        root_word = selelected_text
+        if not result:
+            tokenize_words = tokenizer_obj.tokenize(data['word'], mode)[0]
+            word = tokenize_words.dictionary_form()
+            result = Dictionary_Entry.objects(Q(k_ele__exact=word)|Q(r_ele__exact=word))
+            if not result:
+                word = tokenize_words.normalized_form()
+                result = Dictionary_Entry.objects(Q(k_ele__exact=selelected_text)|Q(r_ele__exact=selelected_text))
+            root_word = str(tokenize_words)
+        print(root_word)
+        meaning = get_meaning(result)
         context['meanings'] = meaning
+        context['root_word'] = root_word
         return JsonResponse({"success": True, 'context': context}, status=200)
 
     return JsonResponse({"success": False}, status=400)
 
 def get_meaning(result):
     meanings = []
+    count = 1
     for res in result:
         meaning = {}
+        meaning['no'] = count
         meaning['k_ele'] = ', '.join(res.k_ele)
         meaning['r_ele'] = res.r_ele
         # print(res.k_ele)
@@ -69,4 +65,5 @@ def get_meaning(result):
             m_sense.append(temp)
         meaning['sense'] = m_sense
         meanings.append(meaning)
+        count +=1
     return meanings

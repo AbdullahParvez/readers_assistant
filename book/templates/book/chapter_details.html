@@ -145,7 +145,7 @@
 {{ object.id|json_script:"chapter_id" }}
 {{ favourite_word_list|json_script:"favourite_word_list" }}
 {{ note_list|json_script:"note_list" }}
-{{ meaning_list|json_script:"meaning_list" }}
+<!-- {{ meaning_list|json_script:"meaning_list" }} -->
 <div id="get_word_meaning_url" data-get-word-meaning-url="{% url 'get_word_meaning' %}" type="hidden"></div>,
 <div id="get_note_url" data-get-note-url="{% url 'book:get_note' %}" type="hidden"></div>
 <div id="set_favourite_url" data-set-favourite-url="{% url 'book:set_favourites' %}" type="hidden"></div>
@@ -159,13 +159,14 @@
 <script>
 
     var chapter_details = function () {
-        let meaning_list=JSON.parse(document.getElementById('meaning_list').textContent);
+        // let meaning_list=JSON.parse(document.getElementById('meaning_list').textContent);
         let chapter_id=JSON.parse(document.getElementById('chapter_id').textContent);
         let favourite_word_list = JSON.parse(document.getElementById('favourite_word_list').textContent);
         let note_list = JSON.parse(document.getElementById('note_list').textContent);
         let marked_word_list = [];
 
-
+        // console.log(meaning_list)
+        console.log(favourite_word_list)
         // function removeItemOnce(arr, value) {
         //     let index = arr.indexOf(value);
         //     if (index > -1) {
@@ -185,16 +186,13 @@
             content_div.innerHTML=content;
         }
 
-        function initialize(favourite_word=false, note=false){            
-            if (favourite_word){
-                for (let i=0; i<chapter_details.favourite_word_list.length; i++){
-                    chapter_details.replace_word(chapter_details.favourite_word_list[i], 'SteelBlue');
-                }
+        function initialize(){       
+            for (let i=0; i<chapter_details.favourite_word_list.length; i++){
+                let favourite_word = chapter_details.favourite_word_list[i].split('_')[0]
+                chapter_details.replace_word(favourite_word, 'SteelBlue');
             }
-            if(note){
-                for (let i=0; i<chapter_details.note_list.length; i++){
-                    chapter_details.replace_word(chapter_details.note_list[i], 'CadetBlue')
-                }
+            for (let i=0; i<chapter_details.note_list.length; i++){
+                chapter_details.replace_word(chapter_details.note_list[i], 'CadetBlue')
             }
         }
 
@@ -230,76 +228,83 @@
                 .then(data => {
                     // console.log('success');
                     // console.log(data.context.meanings);
-                    let meaning_div =document.getElementById('meanings');
-                    meaning_div.innerHTML = '';
-                    const meanings = data.context.meanings;
-                    if (meanings){
-                        for (let i=0; i<meanings.length; i++){
-                            let icon_class;
-                            if (chapter_details.meaning_list.includes(meanings[i].k_ele)){
-                                icon_class = 'icon fa-regular fa-star solid';
-                            } else{
-                                icon_class = 'icon fa-regular fa-star';
+                    if (data.success){
+                        let meaning_div =document.getElementById('meanings');
+                        meaning_div.innerHTML = '';
+                        const meanings = data.context.meanings;
+                        const root_word = data.context.root_word;
+                        // console.log(meanings);
+                        // console.log(root_word);
+                        if (meanings){
+                            for (let i=0; i<meanings.length; i++){
+                                let icon_class;
+                                if (chapter_details.favourite_word_list.includes(root_word+'_'+meanings[i].no)){
+                                    icon_class = 'icon fa-regular fa-star solid';
+                                } else{
+                                    icon_class = 'icon fa-regular fa-star';
+                                }
+                                let meaning_content_div = document.createElement('div');
+                                meaning_content_div.className = 'row';
+
+                                let heading_div = document.createElement('div');
+                                heading_div.className = 'col-9';
+                                let heading = document.createElement('h3');
+                                heading.innerText = meanings[i].k_ele;
+                                heading_div.appendChild(heading);
+
+                                let icon_div = document.createElement('div');
+                                icon_div.className = 'col-3';
+                                let selected_word_p = document.createElement('p');
+                                // selected_word_p.innerText = meanings[i].k_ele+'&'+word;
+                                selected_word_p.innerText = root_word+'_'+meanings[i].no;
+                                selected_word_p.style.display='none';
+
+                                let checkebox = document.createElement('span');
+                                checkebox.style.float = 'left';
+                                checkebox.innerHTML = "<i class='"+icon_class+"' style='font-size: 1.7rem;'"+
+                                "onClick='chapter_details.manageFavourite(this);'></i>";
+                                icon_div.appendChild(selected_word_p);
+                                icon_div.appendChild(checkebox);
+
+                                meaning_content_div.appendChild(heading_div);
+                                meaning_content_div.appendChild(icon_div);
+
+                                let sub_heading = document.createElement('h5');
+                                sub_heading.innerText = meanings[i].r_ele
+
+                                senses = meanings[i].sense
+                                let def_list = document.createElement('ol')
+                                for (let j=0; j<senses.length; j++){
+                                    let list = document.createElement('li');
+                                    let def_div = document.createElement('div');
+                                    def_div.className = 'col p-1';
+                                    let desc_div = document.createElement('div');
+                                    let desc_span = document.createElement('span');
+                                    desc_span.style.fontSize = '1.25rem';
+                                    let word_meaning = senses[j].meaning.toString();
+                                    desc_span.innerHTML = word_meaning.replace(/,/g, ', ');
+                                    desc_div.appendChild(desc_span);
+                                    let pos_div = document.createElement('div');
+                                    let pos_span = document.createElement('span');
+                                    pos_span.style.fontSize = '0.9rem'
+                                    let word_pos = senses[j].pos.toString();
+                                    pos_span.innerHTML = word_pos.replace(/,/g, ', ');
+                                    pos_div.appendChild(pos_span);
+                                    def_div.appendChild(desc_div);
+                                    def_div.appendChild(pos_div);
+                                    list.appendChild(def_div);
+                                    def_list.appendChild(list);
+                                }
+                                meaning_div.appendChild(meaning_content_div);
+                                meaning_div.appendChild(sub_heading);
+                                meaning_div.appendChild(def_list);
+                                chapter_details.getNote(e, word, true);
                             }
-                            let meaning_content_div = document.createElement('div');
-                            meaning_content_div.className = 'row';
-
-                            let heading_div = document.createElement('div');
-                            heading_div.className = 'col-9';
-                            let heading = document.createElement('h3');
-                            heading.innerText = meanings[i].k_ele;
-                            heading_div.appendChild(heading);
-
-                            let icon_div = document.createElement('div');
-                            icon_div.className = 'col-3';
-                            let selected_word_p = document.createElement('p');
-                            selected_word_p.innerText = meanings[i].k_ele+'&'+word;
-                            selected_word_p.style.display='none';
-
-                            let checkebox = document.createElement('span');
-                            checkebox.style.float = 'left';
-                            checkebox.innerHTML = "<i class='"+icon_class+"' style='font-size: 1.7rem;'"+
-                            "onClick='chapter_details.makeFavourite(this);'></i>";
-                            icon_div.appendChild(selected_word_p);
-                            icon_div.appendChild(checkebox);
-
-                            meaning_content_div.appendChild(heading_div);
-                            meaning_content_div.appendChild(icon_div);
-
-                            let sub_heading = document.createElement('h5');
-                            sub_heading.innerText = meanings[i].r_ele
-
-                            senses = meanings[i].sense
-                            let def_list = document.createElement('ol')
-                            for (let j=0; j<senses.length; j++){
-                                let list = document.createElement('li');
-                                let def_div = document.createElement('div');
-                                def_div.className = 'col p-1';
-                                let desc_div = document.createElement('div');
-                                let desc_span = document.createElement('span');
-                                desc_span.style.fontSize = '1.25rem';
-                                let word_meaning = senses[j].meaning.toString();
-                                desc_span.innerHTML = word_meaning.replace(/,/g, ', ');
-                                desc_div.appendChild(desc_span);
-                                let pos_div = document.createElement('div');
-                                let pos_span = document.createElement('span');
-                                pos_span.style.fontSize = '0.9rem'
-                                let word_pos = senses[j].pos.toString();
-                                pos_span.innerHTML = word_pos.replace(/,/g, ', ');
-                                pos_div.appendChild(pos_span);
-                                def_div.appendChild(desc_div);
-                                def_div.appendChild(pos_div);
-                                list.appendChild(def_div);
-                                def_list.appendChild(list);
-                            }
-                            meaning_div.appendChild(meaning_content_div);
-                            meaning_div.appendChild(sub_heading);
-                            meaning_div.appendChild(def_list);
-                            chapter_details.getNote(e, word, true);
+                        }else{
+                            chapter_details.getNote(e, word);
                         }
-                    }else{
-                        chapter_details.getNote(e, word);
                     }
+                    
 
                 })
                 .catch((error) => {
@@ -312,47 +317,17 @@
             }
         }
 
-        function deleteMeaning(word){
-            e.preventDefault();
-            const data = {
-                'chapter_id':chapter_id,
-                'word': word,
-            };
-            // console.log(data)
-            const url = document.getElementById('note_delete_url').getAttribute("data-note-delete-url");
-            fetch(url, {
-                method: "POST",
-                credentials: "same-origin",
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                    "X-CSRFToken": base.csrftoken,
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                chapter_details.note_list = removeItemOnce(chapter_details.note_list, word);
-                chapter_details.initialize(favourite_word=false, note=true);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                message = "問題が起こりました。もう一度お願いします。";
-                // base.alert_message(message);
-                console.log(message);
-                return;
-            });
-        }
-
-        function makeFavourite(checkbox){
+        function manageFavourite(checkbox){
             let marked_favourite = checkbox.classList.toggle('solid');
             let chapter_id = JSON.parse(document.getElementById('chapter_id').textContent);
-            let favourite_text = checkbox.parentNode.previousSibling.innerText.split('&');
-            let favourite_meaning = favourite_text[0];
-            let selected_text = favourite_text[1];
+            let favourite_text = checkbox.parentNode.previousSibling.innerText.split('_');
+            let word = favourite_text[0];
+            let word_no = favourite_text[1];
+            
             const data = {
                 'chapter_id': chapter_id,
-                'selected_word':selected_text,
-                'meaning':favourite_meaning,
+                'word':word,
+                'no':word_no,
             };
             if(marked_favourite){
                 const url = document.getElementById('set_favourite_url').getAttribute("data-set-favourite-url");
@@ -368,8 +343,8 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success){
-                        chapter_details.favourite_word_list.push(selected_text);
-                        chapter_details.replace_word(selected_text, 'SteelBlue');
+                        chapter_details.favourite_word_list.push(word+'_'+word_no);
+                        chapter_details.replace_word(word, 'SteelBlue');
                     }
                 })
                 .catch((error) => {
@@ -552,14 +527,14 @@
         }
 
         return {
-            meaning_list:meaning_list,
+            // meaning_list:meaning_list,
             favourite_word_list:favourite_word_list,
             marked_word_list:marked_word_list,
             note_list:note_list,
             initialize:initialize,
             replace_word:replace_word,
             getMeaning: getMeaning,
-            makeFavourite:makeFavourite,
+            manageFavourite:manageFavourite,
             create_note:create_note,
             getNote:getNote,
             deleteNote:deleteNote,

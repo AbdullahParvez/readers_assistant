@@ -21,4 +21,11 @@ class Note(models.Model):
 class Favourite(models.Model):
     article = models.ForeignKey('Article', on_delete=models.CASCADE, related_name='favourites')
     word = models.CharField(blank=True, null=True, max_length=100)
-    meaning = models.CharField(blank=True, null=True, max_length=255)
+    no = models.CharField(blank=True, null=True, max_length=2)
+
+    def __str__(self) -> str:
+        return f"{self.word}_{self.no}"
+    
+    def get_str(self):
+        return self.__str__()
+
