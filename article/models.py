@@ -17,6 +17,9 @@ class Note(models.Model):
     title = models.CharField(max_length=255)
     content = HTMLField()
 
+    def __str__(self) -> str:
+        return self.title
+
 
 class Favourite(models.Model):
     article = models.ForeignKey('Article', on_delete=models.CASCADE, related_name='favourites')

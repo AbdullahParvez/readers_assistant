@@ -127,7 +127,7 @@
 					<!-- <input type="textarea" name="content" id="content" value="" placeholder="Content"> -->
 				</div>
 				<div class="mt-3">
-					<button type="submit" class="button secondary"  data-bs-dismiss="modal" onclick="article_details.create_note(event)">Create</button>
+					<button type="submit" class="button secondary"  data-bs-dismiss="modal" onclick="document_handler.create_note(event)">Create</button>
 				</div>
 			</div>
 
@@ -138,10 +138,9 @@
 	</div>
 </div>
 
-{{ object.id|json_script:"article_id" }}
+{{ object.id|json_script:"document_id" }}
 {{ favourite_word_list|json_script:"favourite_word_list" }}
 {{ note_list|json_script:"note_list" }}
-{{ meaning_list|json_script:"meaning_list" }}
 <div id="get_word_meaning_url" data-get-word-meaning-url="{% url 'get_word_meaning' %}" type="hidden"></div>
 <div id="get_note_url" data-get-note-url="{% url 'article:get_note' %}" type="hidden"></div>
 <div id="set_favourite_url" data-set-favourite-url="{% url 'article:set_favourites' %}" type="hidden"></div>
@@ -153,6 +152,7 @@
 
 {% block page_specific_js %}
 <script src="{% static 'js/base.js'%}"></script>
+<script src="{% static 'js/document_handler.js'%}"></script>
 <script>
 
     // function getMeaning(e) {
@@ -160,629 +160,606 @@
     //     // console.log(document.selection.createRange().text);
     //     console.log(data);
     // }
-    var article_details = function () {
+    // var article_details = function () {
 
-        let article_id=JSON.parse(document.getElementById('article_id').textContent);
-        let meaning_list=JSON.parse(document.getElementById('meaning_list').textContent);
-        let favourite_word_list = JSON.parse(document.getElementById('favourite_word_list').textContent);
-        let note_list = JSON.parse(document.getElementById('note_list').textContent);
-        let marked_word_list = [];
+    //     let article_id=JSON.parse(document.getElementById('article_id').textContent);
+    //     let meaning_list=JSON.parse(document.getElementById('meaning_list').textContent);
+    //     let favourite_word_list = JSON.parse(document.getElementById('favourite_word_list').textContent);
+    //     let note_list = JSON.parse(document.getElementById('note_list').textContent);
+    //     let marked_word_list = [];
 
-        function replace_word(word, color){
-            let content_div = document.getElementById('content')
-            let content = content_div.innerHTML;
-            let marked_index = article_details.marked_word_list.findIndex(element => element.includes(word));
-            if (marked_index==-1){
-                content = content.replaceAll(word, "<span style='color:"+color+";'>"+word+"</span>&nbsp;");
-                article_details.marked_word_list.push(word);
-            }
-            content_div.innerHTML=content;
-        }
+    //     function replace_word(word, color){
+    //         let content_div = document.getElementById('content')
+    //         let content = content_div.innerHTML;
+    //         let marked_index = article_details.marked_word_list.findIndex(element => element.includes(word));
+    //         if (marked_index==-1){
+    //             content = content.replaceAll(word, "<span style='color:"+color+";'>"+word+"</span>&nbsp;");
+    //             article_details.marked_word_list.push(word);
+    //         }
+    //         content_div.innerHTML=content;
+    //     }
 
-        function initialize(){            
-            for (let i=0; i<article_details.favourite_word_list.length; i++){
-                let favourite_word = article_details.favourite_word_list[i].split('_')[0]
-                article_details.replace_word(favourite_word, 'SteelBlue');
-            }
-            for (let i=0; i<article_details.note_list.length; i++){
-                article_details.replace_word(article_details.note_list[i], 'CadetBlue')
-            }
-        }
+    //     function initialize(){            
+    //         for (let i=0; i<article_details.favourite_word_list.length; i++){
+    //             let favourite_word = article_details.favourite_word_list[i].split('_')[0]
+    //             article_details.replace_word(favourite_word, 'SteelBlue');
+    //         }
+    //         for (let i=0; i<article_details.note_list.length; i++){
+    //             article_details.replace_word(article_details.note_list[i], 'CadetBlue')
+    //         }
+    //     }
 
-        function set_search_link(word){
-            let google_search_link = 'https://translate.google.com/?sl=ja&tl=en&text='+word+'&op=translate';
-            let jisho_search_link = 'https://jisho.org/search/'+word;
+    //     function set_search_link(word){
+    //         let google_search_link = 'https://translate.google.com/?sl=ja&tl=en&text='+word+'&op=translate';
+    //         let jisho_search_link = 'https://jisho.org/search/'+word;
 
-            document.getElementById('google_search_button').href = google_search_link;
-            document.getElementById('jisho_search_button').href = jisho_search_link;
-        }
+    //         document.getElementById('google_search_button').href = google_search_link;
+    //         document.getElementById('jisho_search_button').href = jisho_search_link;
+    //     }
 
-        function getMeaning(e) {
-            e.preventDefault();
-            let word = window.getSelection().toString();
-            article_details.set_search_link(word);
-            console.log(word);
-            if (word) {
-                const data = {
-                    'word': word,
-                };
-                // console.log(data)
-                const url = document.getElementById('get_word_meaning_url').getAttribute("data-get-word-meaning-url");
-                fetch(url, {
-                    method: "POST",
-                    credentials: "same-origin",
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRFToken": base.csrftoken,
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success){
-                        let meaning_div =document.getElementById('meanings');
-                        meaning_div.innerHTML = '';
-                        const meanings = data.context.meanings;
-                        const root_word = data.context.root_word;
-                        if (meanings){
-                            for (let i=0; i<meanings.length; i++){
-                                let icon_class;
-                                if (article_details.favourite_word_list.includes(root_word+'_'+meanings[i].no)){
-                                    icon_class = 'icon fa-regular fa-star solid';
-                                } else{
-                                    icon_class = 'icon fa-regular fa-star';
-                                }
-                                let meaning_content_div = document.createElement('div');
-                                meaning_content_div.className = 'row';
+    //     function getMeaning(e) {
+    //         e.preventDefault();
+    //         let word = window.getSelection().toString();
+    //         article_details.set_search_link(word);
+    //         console.log(word);
+    //         if (word) {
+    //             const data = {
+    //                 'word': word,
+    //             };
+    //             // console.log(data)
+    //             const url = document.getElementById('get_word_meaning_url').getAttribute("data-get-word-meaning-url");
+    //             fetch(url, {
+    //                 method: "POST",
+    //                 credentials: "same-origin",
+    //                 headers: {
+    //                     "X-Requested-With": "XMLHttpRequest",
+    //                     "X-CSRFToken": base.csrftoken,
+    //                 },
+    //                 body: JSON.stringify(data)
+    //             })
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 if (data.success){
+    //                     let meaning_div =document.getElementById('meanings');
+    //                     meaning_div.innerHTML = '';
+    //                     const meanings = data.context.meanings;
+    //                     const root_word = data.context.root_word;
+    //                     if (meanings){
+    //                         for (let i=0; i<meanings.length; i++){
+    //                             let icon_class;
+    //                             if (article_details.favourite_word_list.includes(root_word+'_'+meanings[i].no)){
+    //                                 icon_class = 'icon fa-regular fa-star solid';
+    //                             } else{
+    //                                 icon_class = 'icon fa-regular fa-star';
+    //                             }
+    //                             let meaning_content_div = document.createElement('div');
+    //                             meaning_content_div.className = 'row';
 
-                                let heading_div = document.createElement('div');
-                                heading_div.className = 'col-9';
-                                let heading = document.createElement('h3');
-                                heading.innerText = meanings[i].k_ele;
-                                heading_div.appendChild(heading);
+    //                             let heading_div = document.createElement('div');
+    //                             heading_div.className = 'col-9';
+    //                             let heading = document.createElement('h3');
+    //                             heading.innerText = meanings[i].k_ele;
+    //                             heading_div.appendChild(heading);
 
-                                let icon_div = document.createElement('div');
-                                icon_div.className = 'col-3';
-                                let selected_word_p = document.createElement('p');
-                                selected_word_p.innerText = root_word+'_'+meanings[i].no;
-                                selected_word_p.style.display='none';
+    //                             let icon_div = document.createElement('div');
+    //                             icon_div.className = 'col-3';
+    //                             let selected_word_p = document.createElement('p');
+    //                             selected_word_p.innerText = root_word+'_'+meanings[i].no;
+    //                             selected_word_p.style.display='none';
 
-                                let checkebox = document.createElement('span');
-                                checkebox.style.float = 'left';
-                                checkebox.innerHTML = "<i class='"+icon_class+"' style='font-size: 1.7rem;'"+
-                                "onClick='article_details.manageFavourite(this);'></i>";
-                                icon_div.appendChild(selected_word_p);
-                                icon_div.appendChild(checkebox);
+    //                             let checkebox = document.createElement('span');
+    //                             checkebox.style.float = 'left';
+    //                             checkebox.innerHTML = "<i class='"+icon_class+"' style='font-size: 1.7rem;'"+
+    //                             "onClick='article_details.manageFavourite(this);'></i>";
+    //                             icon_div.appendChild(selected_word_p);
+    //                             icon_div.appendChild(checkebox);
 
-                                meaning_content_div.appendChild(heading_div);
-                                meaning_content_div.appendChild(icon_div);
+    //                             meaning_content_div.appendChild(heading_div);
+    //                             meaning_content_div.appendChild(icon_div);
 
-                                let sub_heading = document.createElement('h5');
-                                sub_heading.innerText = meanings[i].r_ele
+    //                             let sub_heading = document.createElement('h5');
+    //                             sub_heading.innerText = meanings[i].r_ele
 
-                                senses = meanings[i].sense
-                                let def_list = document.createElement('ol')
-                                for (let j=0; j<senses.length; j++){
-                                    let list = document.createElement('li');
-                                    let def_div = document.createElement('div');
-                                    def_div.className = 'col p-1';
-                                    let desc_div = document.createElement('div');
-                                    let desc_span = document.createElement('span');
-                                    desc_span.style.fontSize = '1.25rem';
-                                    let word_meaning = senses[j].meaning.toString();
-                                    desc_span.innerHTML = word_meaning.replace(/,/g, ', ');
-                                    desc_div.appendChild(desc_span);
-                                    let pos_div = document.createElement('div');
-                                    let pos_span = document.createElement('span');
-                                    pos_span.style.fontSize = '0.9rem'
-                                    let word_pos = senses[j].pos.toString();
-                                    pos_span.innerHTML = word_pos.replace(/,/g, ', ');
-                                    pos_div.appendChild(pos_span);
-                                    def_div.appendChild(desc_div);
-                                    def_div.appendChild(pos_div);
-                                    list.appendChild(def_div);
-                                    def_list.appendChild(list);
-                                }
-                                meaning_div.appendChild(meaning_content_div);
-                                meaning_div.appendChild(sub_heading);
-                                meaning_div.appendChild(def_list);
-                                article_details.getNote(e, word, true);
-                            }
-                        }else{
-                            article_details.getNote(e, word);
-                        }
-                    }
-                    // console.log('success');
-                    // console.log(data.context.meanings);
+    //                             senses = meanings[i].sense
+    //                             let def_list = document.createElement('ol')
+    //                             for (let j=0; j<senses.length; j++){
+    //                                 let list = document.createElement('li');
+    //                                 let def_div = document.createElement('div');
+    //                                 def_div.className = 'col p-1';
+    //                                 let desc_div = document.createElement('div');
+    //                                 let desc_span = document.createElement('span');
+    //                                 desc_span.style.fontSize = '1.25rem';
+    //                                 let word_meaning = senses[j].meaning.toString();
+    //                                 desc_span.innerHTML = word_meaning.replace(/,/g, ', ');
+    //                                 desc_div.appendChild(desc_span);
+    //                                 let pos_div = document.createElement('div');
+    //                                 let pos_span = document.createElement('span');
+    //                                 pos_span.style.fontSize = '0.9rem'
+    //                                 let word_pos = senses[j].pos.toString();
+    //                                 pos_span.innerHTML = word_pos.replace(/,/g, ', ');
+    //                                 pos_div.appendChild(pos_span);
+    //                                 def_div.appendChild(desc_div);
+    //                                 def_div.appendChild(pos_div);
+    //                                 list.appendChild(def_div);
+    //                                 def_list.appendChild(list);
+    //                             }
+    //                             meaning_div.appendChild(meaning_content_div);
+    //                             meaning_div.appendChild(sub_heading);
+    //                             meaning_div.appendChild(def_list);
+    //                             article_details.getNote(e, word, true);
+    //                         }
+    //                     }else{
+    //                         article_details.getNote(e, word);
+    //                     }
+    //                 }
+    //                 // console.log('success');
+    //                 // console.log(data.context.meanings);
                     
 
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                    message = "問題が起こりました。もう一度お願いします。";
-                    // base.alert_message(message);
-                    console.log(message);
-                    return;
-                });
-            }
-        }
+    //             })
+    //             .catch((error) => {
+    //                 console.error('Error:', error);
+    //                 message = "問題が起こりました。もう一度お願いします。";
+    //                 // base.alert_message(message);
+    //                 console.log(message);
+    //                 return;
+    //             });
+    //         }
+    //     }
 
-        // function deleteMeaning(word){
-        //     e.preventDefault();
-        //     const data = {
-        //         'article_id':article_id,
-        //         'word': word,
-        //     };
-        //     // console.log(data)
-        //     const url = document.getElementById('note_delete_url').getAttribute("data-note-delete-url");
-        //     fetch(url, {
-        //         method: "POST",
-        //         credentials: "same-origin",
-        //         headers: {
-        //             "X-Requested-With": "XMLHttpRequest",
-        //             "X-CSRFToken": base.csrftoken,
-        //         },
-        //         body: JSON.stringify(data)
-        //     })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         article_details.note_list = removeItemOnce(article_details.note_list, word);
-        //         article_details.initialize(favourite_word=false, note=true);
-        //     })
-        //     .catch((error) => {
-        //         console.error('Error:', error);
-        //         message = "問題が起こりました。もう一度お願いします。";
-        //         // base.alert_message(message);
-        //         console.log(message);
-        //         return;
-        //     });
-        // }
+    //     // function deleteMeaning(word){
+    //     //     e.preventDefault();
+    //     //     const data = {
+    //     //         'article_id':article_id,
+    //     //         'word': word,
+    //     //     };
+    //     //     // console.log(data)
+    //     //     const url = document.getElementById('note_delete_url').getAttribute("data-note-delete-url");
+    //     //     fetch(url, {
+    //     //         method: "POST",
+    //     //         credentials: "same-origin",
+    //     //         headers: {
+    //     //             "X-Requested-With": "XMLHttpRequest",
+    //     //             "X-CSRFToken": base.csrftoken,
+    //     //         },
+    //     //         body: JSON.stringify(data)
+    //     //     })
+    //     //     .then(response => response.json())
+    //     //     .then(data => {
+    //     //         article_details.note_list = removeItemOnce(article_details.note_list, word);
+    //     //         article_details.initialize(favourite_word=false, note=true);
+    //     //     })
+    //     //     .catch((error) => {
+    //     //         console.error('Error:', error);
+    //     //         message = "問題が起こりました。もう一度お願いします。";
+    //     //         // base.alert_message(message);
+    //     //         console.log(message);
+    //     //         return;
+    //     //     });
+    //     // }
 
-        function manageFavourite(checkbox){
-            let marked_favourite = checkbox.classList.toggle('solid');
-            let article_id = JSON.parse(document.getElementById('article_id').textContent);
-            let favourite_text = checkbox.parentNode.previousSibling.innerText.split('_');
-            let word = favourite_text[0];
-            let word_no = favourite_text[1];
-            const data = {
-                'article_id': article_id,
-                'word':word,
-                'no':word_no,
-            };
-            if(marked_favourite){
-                const url = document.getElementById('set_favourite_url').getAttribute("data-set-favourite-url");
-                fetch(url, {
-                    method: "POST",
-                    credentials: "same-origin",
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRFToken": base.csrftoken,
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success){
-                        article_details.favourite_word_list.push(word+'_'+word_no);
-                        article_details.replace_word(word, 'SteelBlue');
-                    }
-                })
-                .catch((error) => {
-                    // message = "問題が起こりました。もう一度お願いします。";
-                    // base.alert_message(message);
-                    console.log(error);
-                    return;
-                });
-            }
-            else{
-                const url = document.getElementById('remove_from_favourite_url').getAttribute("data-remove-from-favourite-url");
-                fetch(url, {
-                    method: "POST",
-                    credentials: "same-origin",
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRFToken": base.csrftoken,
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.success){
-                        location.reload();
-                    }
-                })
-                .catch((error) => {
-                    // message = "問題が起こりました。もう一度お願いします。";
-                    // base.alert_message(message);
-                    console.log(error);
-                    return;
-                });
-            }
-        }
+    //     function manageFavourite(checkbox){
+    //         let marked_favourite = checkbox.classList.toggle('solid');
+    //         let article_id = JSON.parse(document.getElementById('article_id').textContent);
+    //         let favourite_text = checkbox.parentNode.previousSibling.innerText.split('_');
+    //         let word = favourite_text[0];
+    //         let word_no = favourite_text[1];
+    //         const data = {
+    //             'article_id': article_id,
+    //             'word':word,
+    //             'no':word_no,
+    //         };
+    //         if(marked_favourite){
+    //             const url = document.getElementById('set_favourite_url').getAttribute("data-set-favourite-url");
+    //             fetch(url, {
+    //                 method: "POST",
+    //                 credentials: "same-origin",
+    //                 headers: {
+    //                     "X-Requested-With": "XMLHttpRequest",
+    //                     "X-CSRFToken": base.csrftoken,
+    //                 },
+    //                 body: JSON.stringify(data)
+    //             })
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 if (data.success){
+    //                     article_details.favourite_word_list.push(word+'_'+word_no);
+    //                     article_details.replace_word(word, 'SteelBlue');
+    //                 }
+    //             })
+    //             .catch((error) => {
+    //                 // message = "問題が起こりました。もう一度お願いします。";
+    //                 // base.alert_message(message);
+    //                 console.log(error);
+    //                 return;
+    //             });
+    //         }
+    //         else{
+    //             const url = document.getElementById('remove_from_favourite_url').getAttribute("data-remove-from-favourite-url");
+    //             fetch(url, {
+    //                 method: "POST",
+    //                 credentials: "same-origin",
+    //                 headers: {
+    //                     "X-Requested-With": "XMLHttpRequest",
+    //                     "X-CSRFToken": base.csrftoken,
+    //                 },
+    //                 body: JSON.stringify(data)
+    //             })
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 if(data.success){
+    //                     location.reload();
+    //                 }
+    //             })
+    //             .catch((error) => {
+    //                 // message = "問題が起こりました。もう一度お願いします。";
+    //                 // base.alert_message(message);
+    //                 console.log(error);
+    //                 return;
+    //             });
+    //         }
+    //     }
         
-        function create_note(e){
-            e.preventDefault();
-            let article_id = JSON.parse(document.getElementById('article_id').textContent);
-            let word = document.getElementById('note_word').value;
-            let content = document.getElementById('note_content').value;
-            const data = {
-                'article_id': article_id,
-                'word':word,
-                'content':content,
-            };
-            const url = document.getElementById('note_create_url').getAttribute("data-note-create-url");
-            fetch(url, {
-                method: "POST",
-                credentials: "same-origin",
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                    "X-CSRFToken": base.csrftoken,
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.success)
-                if(data.success){
-                    article_details.note_list.push(word);
-                    article_details.replace_word(word, 'CadetBlue');
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                return;
-            });
+    //     function create_note(e){
+    //         e.preventDefault();
+    //         let article_id = JSON.parse(document.getElementById('article_id').textContent);
+    //         let word = document.getElementById('note_word').value;
+    //         let content = document.getElementById('note_content').value;
+    //         const data = {
+    //             'article_id': article_id,
+    //             'word':word,
+    //             'content':content,
+    //         };
+    //         const url = document.getElementById('note_create_url').getAttribute("data-note-create-url");
+    //         fetch(url, {
+    //             method: "POST",
+    //             credentials: "same-origin",
+    //             headers: {
+    //                 "X-Requested-With": "XMLHttpRequest",
+    //                 "X-CSRFToken": base.csrftoken,
+    //             },
+    //             body: JSON.stringify(data)
+    //         })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             console.log(data.success)
+    //             if(data.success){
+    //                 article_details.note_list.push(word);
+    //                 article_details.replace_word(word, 'CadetBlue');
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.error('Error:', error);
+    //             return;
+    //         });
 
-        }
+    //     }
 
-        function getNote(e, word, meaning=false) {
-            e.preventDefault();
-            if (word) {
-                const data = {
-                    'article_id':article_id,
-                    'word': word,
-                };
-                // console.log(data)
-                const url = document.getElementById('get_note_url').getAttribute("data-get-note-url");
-                fetch(url, {
-                    method: "POST",
-                    credentials: "same-origin",
-                    headers: {
-                        "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRFToken": base.csrftoken,
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    let note_div =document.getElementById('note');
-                    note_div.innerHTML = '';
-                    const content = data.context.content;
-                    if (content){
-                        let note_content_div = document.createElement('div');
-                        // let heading = document.createElement('h3');
-                        // heading.innerText = word;
-                        let title_div = document.createElement('div');
-                        title_div.className = 'row icon_row';
+    //     function getNote(e, word, meaning=false) {
+    //         e.preventDefault();
+    //         if (word) {
+    //             const data = {
+    //                 'article_id':article_id,
+    //                 'word': word,
+    //             };
+    //             // console.log(data)
+    //             const url = document.getElementById('get_note_url').getAttribute("data-get-note-url");
+    //             fetch(url, {
+    //                 method: "POST",
+    //                 credentials: "same-origin",
+    //                 headers: {
+    //                     "X-Requested-With": "XMLHttpRequest",
+    //                     "X-CSRFToken": base.csrftoken,
+    //                 },
+    //                 body: JSON.stringify(data)
+    //             })
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 let note_div =document.getElementById('note');
+    //                 note_div.innerHTML = '';
+    //                 const content = data.context.content;
+    //                 if (content){
+    //                     let note_content_div = document.createElement('div');
+    //                     // let heading = document.createElement('h3');
+    //                     // heading.innerText = word;
+    //                     let title_div = document.createElement('div');
+    //                     title_div.className = 'row icon_row';
 
-                        let heading_div = document.createElement('div');
-                        heading_div.className = 'col-9';
-                        let heading = document.createElement('h3');
-                        heading.className = "icon_heading";
-                        heading.innerText = word;
-                        heading_div.appendChild(heading);
-                        // console.log('how are you');
-                        let icon_div = document.createElement('div');
-                        let icon_class = 'icon fa-minus-square fa-2x solid';
-                        let delete_function = 'article_details.deleteNote("'+word+'");';
-                        icon_div.className = 'col-3';
-                        icon_div.innerHTML = "<i class='"+icon_class+"' style='font-size: 1.7rem;'"+
-                            "onClick="+delete_function+"></i>";
-                        // let element = document.createElement("i");
-                        // element.className = 'icon fa-minus-square fa-2x solid';
-                        // element.onClick = function () { article_details.deleteNote(word); };
-                        // // button.appendChild(element);
-                        // icon_div.appendChild(element);
-                        title_div.appendChild(heading_div);
-                        title_div.appendChild(icon_div);
-                        let span = document.createElement('span');
-                        span.innerHTML = content;
-                        note_content_div.appendChild(title_div);
-                        note_content_div.appendChild(span);
-                        note_div.appendChild(note_content_div);
-                    }else{
-                        if(!(meaning)){
-                            let meaning_div =document.getElementById('meanings');
-                            meaning_div.innerHTML = '<p>There is no meaning to the selected part.'
-                                +'Please try selecting the word before or after the selected part.'+
-                                'Otherwise, you can <a data-bs-toggle="modal" data-bs-target="#noteModal">add a note</a> for this word.</p>';
-                        }
-                        // document.getElementById('word').value = word;
-                        let note_div = document.getElementById('note');
-                        note_div.innerHTML = '';
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                    // message = "問題が起こりました。もう一度お願いします。";
-                    // // base.alert_message(message);
-                    // console.log(message);
-                    return;
-                });
-                document.getElementById('note_word').value=word;
-            }
-        }
+    //                     let heading_div = document.createElement('div');
+    //                     heading_div.className = 'col-9';
+    //                     let heading = document.createElement('h3');
+    //                     heading.className = "icon_heading";
+    //                     heading.innerText = word;
+    //                     heading_div.appendChild(heading);
+    //                     // console.log('how are you');
+    //                     let icon_div = document.createElement('div');
+    //                     let icon_class = 'icon fa-minus-square fa-2x solid';
+    //                     let delete_function = 'article_details.deleteNote("'+word+'");';
+    //                     icon_div.className = 'col-3';
+    //                     icon_div.innerHTML = "<i class='"+icon_class+"' style='font-size: 1.7rem;'"+
+    //                         "onClick="+delete_function+"></i>";
+    //                     // let element = document.createElement("i");
+    //                     // element.className = 'icon fa-minus-square fa-2x solid';
+    //                     // element.onClick = function () { article_details.deleteNote(word); };
+    //                     // // button.appendChild(element);
+    //                     // icon_div.appendChild(element);
+    //                     title_div.appendChild(heading_div);
+    //                     title_div.appendChild(icon_div);
+    //                     let span = document.createElement('span');
+    //                     span.innerHTML = content;
+    //                     note_content_div.appendChild(title_div);
+    //                     note_content_div.appendChild(span);
+    //                     note_div.appendChild(note_content_div);
+    //                 }else{
+    //                     if(!(meaning)){
+    //                         let meaning_div =document.getElementById('meanings');
+    //                         meaning_div.innerHTML = '<p>There is no meaning to the selected part.'
+    //                             +'Please try selecting the word before or after the selected part.'+
+    //                             'Otherwise, you can <a data-bs-toggle="modal" data-bs-target="#noteModal">add a note</a> for this word.</p>';
+    //                     }
+    //                     // document.getElementById('word').value = word;
+    //                     let note_div = document.getElementById('note');
+    //                     note_div.innerHTML = '';
+    //                 }
+    //             })
+    //             .catch((error) => {
+    //                 console.error('Error:', error);
+    //                 // message = "問題が起こりました。もう一度お願いします。";
+    //                 // // base.alert_message(message);
+    //                 // console.log(message);
+    //                 return;
+    //             });
+    //             document.getElementById('note_word').value=word;
+    //         }
+    //     }
 
-        function deleteNote(word){
-            const data = {
-                'article_id':article_id,
-                'word': word,
-            };
-            // console.log(data)
-            const url = document.getElementById('note_delete_url').getAttribute("data-note-delete-url");
-            fetch(url, {
-                method: "POST",
-                credentials: "same-origin",
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                    "X-CSRFToken": base.csrftoken,
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success){
-                    location.reload();
-                }
-                // article_details.note_list = removeItemOnce(article_details.note_list, word);
-                // article_details.initialize(favourite_word=false, note=true);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                message = "問題が起こりました。もう一度お願いします。";
-                // base.alert_message(message);
-                console.log(message);
-                return;
-            });
-        }
+    //     function deleteNote(word){
+    //         const data = {
+    //             'article_id':article_id,
+    //             'word': word,
+    //         };
+    //         // console.log(data)
+    //         const url = document.getElementById('note_delete_url').getAttribute("data-note-delete-url");
+    //         fetch(url, {
+    //             method: "POST",
+    //             credentials: "same-origin",
+    //             headers: {
+    //                 "X-Requested-With": "XMLHttpRequest",
+    //                 "X-CSRFToken": base.csrftoken,
+    //             },
+    //             body: JSON.stringify(data)
+    //         })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if (data.success){
+    //                 location.reload();
+    //             }
+    //             // article_details.note_list = removeItemOnce(article_details.note_list, word);
+    //             // article_details.initialize(favourite_word=false, note=true);
+    //         })
+    //         .catch((error) => {
+    //             console.error('Error:', error);
+    //             message = "問題が起こりました。もう一度お願いします。";
+    //             // base.alert_message(message);
+    //             console.log(message);
+    //             return;
+    //         });
+    //     }
 
-        // function getMeaning(e) {
-        //     e.preventDefault();
-        //     let word = window.getSelection().toString();
-        //     document.getElementById('word').value=word;
-        //     // console.log(word);
-        //     if (word) {
-        //         const data = {
-        //             'word': word,
-        //         };
-        //         // console.log(data)
-        //         const url = document.getElementById('get_word_meaning_url').getAttribute("data-get-word-meaning-url");
-        //         fetch(url, {
-        //             method: "POST",
-        //             credentials: "same-origin",
-        //             headers: {
-        //                 "X-Requested-With": "XMLHttpRequest",
-        //                 "X-CSRFToken": base.csrftoken,
-        //             },
-        //             body: JSON.stringify(data)
-        //         })
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             let meaning_div =document.getElementById('meanings');
-        //             meaning_div.innerHTML = '';
-        //             const meanings = data.context.meanings;
-        //             if (meanings){
-        //                 for (let i=0; i<meanings.length; i++){
-        //                     let icon_class;
-        //                     if (article_details.meaning_list.includes(meanings[i].k_ele)){
-        //                         icon_class = 'icon fa-regular fa-star solid';
-        //                     } else{
-        //                         icon_class = 'icon fa-regular fa-star'
-        //                     }
-        //                     let meaning_content_div = document.createElement('div');
-        //                     meaning_content_div.className = 'row';
+    //     // function getMeaning(e) {
+    //     //     e.preventDefault();
+    //     //     let word = window.getSelection().toString();
+    //     //     document.getElementById('word').value=word;
+    //     //     // console.log(word);
+    //     //     if (word) {
+    //     //         const data = {
+    //     //             'word': word,
+    //     //         };
+    //     //         // console.log(data)
+    //     //         const url = document.getElementById('get_word_meaning_url').getAttribute("data-get-word-meaning-url");
+    //     //         fetch(url, {
+    //     //             method: "POST",
+    //     //             credentials: "same-origin",
+    //     //             headers: {
+    //     //                 "X-Requested-With": "XMLHttpRequest",
+    //     //                 "X-CSRFToken": base.csrftoken,
+    //     //             },
+    //     //             body: JSON.stringify(data)
+    //     //         })
+    //     //         .then(response => response.json())
+    //     //         .then(data => {
+    //     //             let meaning_div =document.getElementById('meanings');
+    //     //             meaning_div.innerHTML = '';
+    //     //             const meanings = data.context.meanings;
+    //     //             if (meanings){
+    //     //                 for (let i=0; i<meanings.length; i++){
+    //     //                     let icon_class;
+    //     //                     if (article_details.meaning_list.includes(meanings[i].k_ele)){
+    //     //                         icon_class = 'icon fa-regular fa-star solid';
+    //     //                     } else{
+    //     //                         icon_class = 'icon fa-regular fa-star'
+    //     //                     }
+    //     //                     let meaning_content_div = document.createElement('div');
+    //     //                     meaning_content_div.className = 'row';
 
-        //                     let heading_div = document.createElement('div');
-        //                     heading_div.className = 'col-9';
-        //                     let heading = document.createElement('h3');
-        //                     heading.innerText = meanings[i].k_ele;
-        //                     heading_div.appendChild(heading);
+    //     //                     let heading_div = document.createElement('div');
+    //     //                     heading_div.className = 'col-9';
+    //     //                     let heading = document.createElement('h3');
+    //     //                     heading.innerText = meanings[i].k_ele;
+    //     //                     heading_div.appendChild(heading);
 
-        //                     let icon_div = document.createElement('div');
-        //                     icon_div.className = 'col-3';
-        //                     let selected_word_p = document.createElement('p');
-        //                     selected_word_p.innerText = meanings[i].k_ele+'&'+word;
-        //                     selected_word_p.style.display='none';
+    //     //                     let icon_div = document.createElement('div');
+    //     //                     icon_div.className = 'col-3';
+    //     //                     let selected_word_p = document.createElement('p');
+    //     //                     selected_word_p.innerText = meanings[i].k_ele+'&'+word;
+    //     //                     selected_word_p.style.display='none';
 
-        //                     let checkebox = document.createElement('span');
-        //                     checkebox.style.float = 'left';
-        //                     checkebox.innerHTML = "<i class='"+icon_class+"' style='font-size: 1.7rem;'"+
-        //                     "onClick='article_details.makeFavourite(this);'></i>";
-        //                     icon_div.appendChild(selected_word_p);
-        //                     icon_div.appendChild(checkebox);
+    //     //                     let checkebox = document.createElement('span');
+    //     //                     checkebox.style.float = 'left';
+    //     //                     checkebox.innerHTML = "<i class='"+icon_class+"' style='font-size: 1.7rem;'"+
+    //     //                     "onClick='article_details.makeFavourite(this);'></i>";
+    //     //                     icon_div.appendChild(selected_word_p);
+    //     //                     icon_div.appendChild(checkebox);
 
-        //                     meaning_content_div.appendChild(heading_div);
-        //                     meaning_content_div.appendChild(icon_div);
+    //     //                     meaning_content_div.appendChild(heading_div);
+    //     //                     meaning_content_div.appendChild(icon_div);
 
-        //                     let sub_heading = document.createElement('h5');
-        //                     sub_heading.innerText = meanings[i].r_ele
+    //     //                     let sub_heading = document.createElement('h5');
+    //     //                     sub_heading.innerText = meanings[i].r_ele
 
-        //                     senses = meanings[i].sense
-        //                     let def_list = document.createElement('ol')
-        //                     for (let j=0; j<senses.length; j++){
-        //                         let list = document.createElement('li');
-        //                         let def_div = document.createElement('div');
-        //                         def_div.className = 'col p-1';
-        //                         let desc_div = document.createElement('div');
-        //                         let desc_span = document.createElement('span');
-        //                         desc_span.style.fontSize = '1.25rem';
-        //                         let word_meaning = senses[j].meaning.toString();
-        //                         desc_span.innerHTML = word_meaning.replace(/,/g, ', ');
-        //                         desc_div.appendChild(desc_span);
-        //                         let pos_div = document.createElement('div');
-        //                         let pos_span = document.createElement('span');
-        //                         pos_span.style.fontSize = '0.9rem'
-        //                         let word_pos = senses[j].pos.toString();
-        //                         pos_span.innerHTML = word_pos.replace(/,/g, ', ');
-        //                         pos_div.appendChild(pos_span);
-        //                         def_div.appendChild(desc_div);
-        //                         def_div.appendChild(pos_div);
-        //                         list.appendChild(def_div);
-        //                         def_list.appendChild(list);
-        //                     }
-        //                     meaning_div.appendChild(meaning_content_div);
-        //                     meaning_div.appendChild(sub_heading);
-        //                     meaning_div.appendChild(def_list);
+    //     //                     senses = meanings[i].sense
+    //     //                     let def_list = document.createElement('ol')
+    //     //                     for (let j=0; j<senses.length; j++){
+    //     //                         let list = document.createElement('li');
+    //     //                         let def_div = document.createElement('div');
+    //     //                         def_div.className = 'col p-1';
+    //     //                         let desc_div = document.createElement('div');
+    //     //                         let desc_span = document.createElement('span');
+    //     //                         desc_span.style.fontSize = '1.25rem';
+    //     //                         let word_meaning = senses[j].meaning.toString();
+    //     //                         desc_span.innerHTML = word_meaning.replace(/,/g, ', ');
+    //     //                         desc_div.appendChild(desc_span);
+    //     //                         let pos_div = document.createElement('div');
+    //     //                         let pos_span = document.createElement('span');
+    //     //                         pos_span.style.fontSize = '0.9rem'
+    //     //                         let word_pos = senses[j].pos.toString();
+    //     //                         pos_span.innerHTML = word_pos.replace(/,/g, ', ');
+    //     //                         pos_div.appendChild(pos_span);
+    //     //                         def_div.appendChild(desc_div);
+    //     //                         def_div.appendChild(pos_div);
+    //     //                         list.appendChild(def_div);
+    //     //                         def_list.appendChild(list);
+    //     //                     }
+    //     //                     meaning_div.appendChild(meaning_content_div);
+    //     //                     meaning_div.appendChild(sub_heading);
+    //     //                     meaning_div.appendChild(def_list);
 
-        //                     let note_div =document.getElementById('note');
-        //                     note_div.innerHTML = '';
-        //                 }
-        //             }else{
-        //                 article_details.getNote(e, word);
-        //             }
+    //     //                     let note_div =document.getElementById('note');
+    //     //                     note_div.innerHTML = '';
+    //     //                 }
+    //     //             }else{
+    //     //                 article_details.getNote(e, word);
+    //     //             }
 
-        //         })
-        //         .catch((error) => {
-        //             console.error('Error:', error);
-        //             message = "問題が起こりました。もう一度お願いします。";
-        //             // base.alert_message(message);
-        //             console.log(message);
-        //             return;
-        //         });
-        //     }
-        // }
+    //     //         })
+    //     //         .catch((error) => {
+    //     //             console.error('Error:', error);
+    //     //             message = "問題が起こりました。もう一度お願いします。";
+    //     //             // base.alert_message(message);
+    //     //             console.log(message);
+    //     //             return;
+    //     //         });
+    //     //     }
+    //     // }
 
-        // function getNote(e, word) {
-        //     e.preventDefault();
-        //     if (word) {
-        //         const data = {
-        //             'article_id':article_id,
-        //             'word': word,
-        //         };
-        //         // console.log(data)
-        //         const url = document.getElementById('get_note_url').getAttribute("data-get-note-url");
-        //         fetch(url, {
-        //             method: "POST",
-        //             credentials: "same-origin",
-        //             headers: {
-        //                 "X-Requested-With": "XMLHttpRequest",
-        //                 "X-CSRFToken": base.csrftoken,
-        //             },
-        //             body: JSON.stringify(data)
-        //         })
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             let note_div =document.getElementById('note');
-        //             note_div.innerHTML = '';
-        //             const content = data.context.content;
-        //             if (content){
-        //                 let note_content_div = document.createElement('div');
-        //                 let heading = document.createElement('h3');
-        //                 heading.innerText = word;
-        //                 let span = document.createElement('span');
-        //                 span.innerText = content;
-        //                 note_content_div.appendChild(heading);
-        //                 note_content_div.appendChild(span);
-        //                 note_div.appendChild(note_content_div);
-        //             }else{
-        //                 let meaning_div =document.getElementById('meanings');
-        //                 meaning_div.innerHTML = '<p>There is no meaning to the selected part.'
-        //                     +'Please try selecting the word before or after the selected part.'+
-        //                     'Otherwise, you can add a note for this word.</p>';
-        //                 document.getElementById('word').value = word;
-        //             }
-        //         })
-        //         .catch((error) => {
-        //             console.error('Error:', error);
-        //             message = "問題が起こりました。もう一度お願いします。";
-        //             // base.alert_message(message);
-        //             console.log(message);
-        //             return;
-        //         });
-        //     }
-        // }
+    //     // function getNote(e, word) {
+    //     //     e.preventDefault();
+    //     //     if (word) {
+    //     //         const data = {
+    //     //             'article_id':article_id,
+    //     //             'word': word,
+    //     //         };
+    //     //         // console.log(data)
+    //     //         const url = document.getElementById('get_note_url').getAttribute("data-get-note-url");
+    //     //         fetch(url, {
+    //     //             method: "POST",
+    //     //             credentials: "same-origin",
+    //     //             headers: {
+    //     //                 "X-Requested-With": "XMLHttpRequest",
+    //     //                 "X-CSRFToken": base.csrftoken,
+    //     //             },
+    //     //             body: JSON.stringify(data)
+    //     //         })
+    //     //         .then(response => response.json())
+    //     //         .then(data => {
+    //     //             let note_div =document.getElementById('note');
+    //     //             note_div.innerHTML = '';
+    //     //             const content = data.context.content;
+    //     //             if (content){
+    //     //                 let note_content_div = document.createElement('div');
+    //     //                 let heading = document.createElement('h3');
+    //     //                 heading.innerText = word;
+    //     //                 let span = document.createElement('span');
+    //     //                 span.innerText = content;
+    //     //                 note_content_div.appendChild(heading);
+    //     //                 note_content_div.appendChild(span);
+    //     //                 note_div.appendChild(note_content_div);
+    //     //             }else{
+    //     //                 let meaning_div =document.getElementById('meanings');
+    //     //                 meaning_div.innerHTML = '<p>There is no meaning to the selected part.'
+    //     //                     +'Please try selecting the word before or after the selected part.'+
+    //     //                     'Otherwise, you can add a note for this word.</p>';
+    //     //                 document.getElementById('word').value = word;
+    //     //             }
+    //     //         })
+    //     //         .catch((error) => {
+    //     //             console.error('Error:', error);
+    //     //             message = "問題が起こりました。もう一度お願いします。";
+    //     //             // base.alert_message(message);
+    //     //             console.log(message);
+    //     //             return;
+    //     //         });
+    //     //     }
+    //     // }
 
-        // function makeFavourite(checkbox){
-        //     checkbox.classList.toggle('solid');
-        //     // console.log('Fvadjdf');
-        //     let article_id = JSON.parse(document.getElementById('article_id').textContent);
-        //     let favourite_text = checkbox.parentNode.previousSibling.innerText.split('&');
-        //     let favourite_meaning = favourite_text[0];
-        //     let selected_text = favourite_text[1];
-        //     // console.log(favourite_meaning, selected_text);
-        //     const data = {
-        //         'article_id': article_id,
-        //         'selected_word':selected_text,
-        //         'meaning':favourite_meaning,
-        //     };
-        //     const url = document.getElementById('set_favourite_url').getAttribute("data-set-favourite-url");
-        //     fetch(url, {
-        //         method: "POST",
-        //         credentials: "same-origin",
-        //         headers: {
-        //             "X-Requested-With": "XMLHttpRequest",
-        //             "X-CSRFToken": base.csrftoken,
-        //         },
-        //         body: JSON.stringify(data)
-        //     })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         // console.log('success');
-        //         location.reload();
-        //     })
-        //     .catch((error) => {
-        //         // console.error('Error:', error);
-        //         message = "問題が起こりました。もう一度お願いします。";
-        //         // base.alert_message(message);
-        //         // console.log(message);
-        //         return;
-        //     });
+    //     // function makeFavourite(checkbox){
+    //     //     checkbox.classList.toggle('solid');
+    //     //     // console.log('Fvadjdf');
+    //     //     let article_id = JSON.parse(document.getElementById('article_id').textContent);
+    //     //     let favourite_text = checkbox.parentNode.previousSibling.innerText.split('&');
+    //     //     let favourite_meaning = favourite_text[0];
+    //     //     let selected_text = favourite_text[1];
+    //     //     // console.log(favourite_meaning, selected_text);
+    //     //     const data = {
+    //     //         'article_id': article_id,
+    //     //         'selected_word':selected_text,
+    //     //         'meaning':favourite_meaning,
+    //     //     };
+    //     //     const url = document.getElementById('set_favourite_url').getAttribute("data-set-favourite-url");
+    //     //     fetch(url, {
+    //     //         method: "POST",
+    //     //         credentials: "same-origin",
+    //     //         headers: {
+    //     //             "X-Requested-With": "XMLHttpRequest",
+    //     //             "X-CSRFToken": base.csrftoken,
+    //     //         },
+    //     //         body: JSON.stringify(data)
+    //     //     })
+    //     //     .then(response => response.json())
+    //     //     .then(data => {
+    //     //         // console.log('success');
+    //     //         location.reload();
+    //     //     })
+    //     //     .catch((error) => {
+    //     //         // console.error('Error:', error);
+    //     //         message = "問題が起こりました。もう一度お願いします。";
+    //     //         // base.alert_message(message);
+    //     //         // console.log(message);
+    //     //         return;
+    //     //     });
 
-        // }
+    //     // }
 
-        return {
-            meaning_list:meaning_list,
-            favourite_word_list:favourite_word_list,
-            marked_word_list:marked_word_list,
-            note_list:note_list,
-            initialize:initialize,
-            replace_word:replace_word,
-            getMeaning: getMeaning,
-            manageFavourite:manageFavourite,
-            create_note:create_note,
-            getNote:getNote,
-            deleteNote:deleteNote,
-            set_search_link:set_search_link
-        }
-    }();
+    //     return {
+    //         meaning_list:meaning_list,
+    //         favourite_word_list:favourite_word_list,
+    //         marked_word_list:marked_word_list,
+    //         note_list:note_list,
+    //         initialize:initialize,
+    //         replace_word:replace_word,
+    //         getMeaning: getMeaning,
+    //         manageFavourite:manageFavourite,
+    //         create_note:create_note,
+    //         getNote:getNote,
+    //         deleteNote:deleteNote,
+    //         set_search_link:set_search_link
+    //     }
+    // }();
 
-    document.onmouseup = article_details.getMeaning;
+    document.onmouseup = document_handler.get_word_details;
 
     window.onload = function () {
-        article_details.initialize();
-        // let favourite_word_list = JSON.parse(document.getElementById('favourite_word_list').textContent);
-        // let note_list = JSON.parse(document.getElementById('note_list').textContent);
-        // let content_div = document.getElementById('div_content')
-        // let content = document.getElementById('content').innerHTML;
-        // let marked_word = [];
-        // for (let i=0; i<favourite_word_list.length; i++){
-        //     let marked_index = marked_word.findIndex(element => element.includes(favourite_word_list[i]));
-        //     if (marked_index==-1){
-        //         content = content.replaceAll(favourite_word_list[i],
-        //         "<span style='color:SteelBlue;'>"+favourite_word_list[i]+"</span>&nbsp;");
-        //         marked_word.push(favourite_word_list[i]);
-        //     }
-            
-        // }
-        // for (let i=0; i<note_list.length; i++){
-        //     let marked_index = marked_word.findIndex(element => element.includes(note_list[i]));
-        //     if (marked_index==-1){
-        //         content = content.replaceAll(note_list[i],
-        //         "<span style='color:CadetBlue;'>"+note_list[i]+"</span>&nbsp;");
-        //         marked_word.push(note_list[i]);
-        //     }
-        // }
-        // content_div.innerHTML=content;
+        document_handler.initialize();
     };
 
 </script>

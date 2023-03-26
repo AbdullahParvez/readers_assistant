@@ -57,8 +57,8 @@ class ArticleView(LoginRequiredMixin, DetailView):
 def add_favourite_word(request):
     if request.method == "POST":
         data = json.load(request)
-        article_id = data["article_id"]
-        article = Article.objects.get(id=article_id)
+        document_id = data["document_id"]
+        article = Article.objects.get(id=document_id)
         word = data["word"]
         no = data["no"]
         Favourite.objects.get_or_create(article=article, word=word, no=no)
@@ -70,7 +70,7 @@ def add_favourite_word(request):
 def remove_from_favourite_word(request):
     if request.method == "POST":
         data = json.load(request)
-        article = Article.objects.get(id=data['article_id'])
+        article = Article.objects.get(id=data['document_id'])
         word = data['word']
         no = data['no']
         Favourite.objects.filter(article=article, word=word, no=no).delete()
@@ -82,8 +82,8 @@ def remove_from_favourite_word(request):
 def create_note(request):
     if request.method == "POST":
         data = json.load(request)
-        article_id = data["article_id"]
-        article = Article.objects.get(id=article_id)
+        document_id = data["document_id"]
+        article = Article.objects.get(id=document_id)
         word = data['word']
         content = data['content']
         Note.objects.get_or_create(article=article, title=word, content=content)
@@ -96,7 +96,7 @@ def get_note(request):
         context = {}
         data = json.load(request)
         # print(data['word'])
-        article = Article.objects.get(id=data['article_id'])
+        article = Article.objects.get(id=data['document_id'])
         word = data['word']
         # print(article, word)
         note = Note.objects.filter(article=article, title=word)
@@ -113,7 +113,7 @@ def get_note(request):
 def delete_note(request):
     if request.method == "POST":
         data = json.load(request)
-        article = Article.objects.get(id=data['article_id'])
+        article = Article.objects.get(id=data['document_id'])
         word = data['word']
         Note.objects.filter(article=article, title=word).delete()
         return JsonResponse({"success": True}, status=200)

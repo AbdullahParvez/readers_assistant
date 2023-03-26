@@ -33,7 +33,7 @@ def get_word_meaning(request):
                 word = tokenize_words.normalized_form()
                 result = Dictionary_Entry.objects(Q(k_ele__exact=selelected_text)|Q(r_ele__exact=selelected_text))
             root_word = str(tokenize_words)
-        print(root_word)
+        # print(root_word)
         meaning = get_meaning(result)
         context['meanings'] = meaning
         context['root_word'] = root_word

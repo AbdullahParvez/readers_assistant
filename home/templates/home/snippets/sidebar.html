@@ -4,12 +4,15 @@
 <div id="sidebar">
     <div class="inner">
       <!-- Search -->
-      <section id="search" class="alt">
-        <!-- <form method="post" action="#">
-          <input type="text" name="query" id="query" placeholder="Search" />
-        </form> -->
-        <h2>{{ user.name }}</h2>
-      </section>
+      <a href="{% url 'home:home' %}">
+        <section id="search" class="alt">
+          <!-- <form method="post" action="#">
+            <input type="text" name="query" id="query" placeholder="Search" />
+          </form> -->
+          <h2>{{ user.name }}</h2>
+        </section>
+      </a>
+      
 
       <!-- Menu -->
       <nav id="menu">

@@ -108,8 +108,8 @@ class ChapterDetails(LoginRequiredMixin, DetailView):
 def add_favourite_word(request):
     if request.method == "POST":
         data = json.load(request)
-        chapter_id = data["chapter_id"]
-        chapter = Chapter.objects.get(id=chapter_id)
+        document_id = data["document_id"]
+        chapter = Chapter.objects.get(id=document_id)
         word = data["word"]
         no = data["no"]
         Favourite.objects.get_or_create(chapter=chapter, word=word, no=no)
@@ -120,7 +120,7 @@ def add_favourite_word(request):
 def remove_from_favourite_word(request):
     if request.method == "POST":
         data = json.load(request)
-        chapter = Chapter.objects.get(id=data['chapter_id'])
+        chapter = Chapter.objects.get(id=data['document_id'])
         word = data['word']
         no = data['no']
         Favourite.objects.filter(chapter=chapter, word=word, no=no).delete()
@@ -132,8 +132,8 @@ def remove_from_favourite_word(request):
 def create_note(request):
     if request.method == "POST":
         data = json.load(request)
-        chapter_id = data["chapter_id"]
-        chapter = Chapter.objects.get(id=chapter_id)
+        document_id = data["document_id"]
+        chapter = Chapter.objects.get(id=document_id)
         word = data['word']
         content = data['content']
         Note.objects.get_or_create(chapter=chapter, title=word, content=content)
@@ -144,7 +144,7 @@ def get_note(request):
     if request.method == "POST":
         context = {}
         data = json.load(request)
-        chapter = Chapter.objects.get(id=data['chapter_id'])
+        chapter = Chapter.objects.get(id=data['document_id'])
         word = data['word']
         note = Note.objects.filter(chapter=chapter, title=word)
         if note:
@@ -159,7 +159,7 @@ def get_note(request):
 def delete_note(request):
     if request.method == "POST":
         data = json.load(request)
-        chapter = Chapter.objects.get(id=data['chapter_id'])
+        chapter = Chapter.objects.get(id=data['document_id'])
         word = data['word']
         Note.objects.filter(chapter=chapter, title=word).delete()
         return JsonResponse({"success": True}, status=200)

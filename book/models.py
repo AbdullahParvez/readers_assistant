@@ -18,6 +18,10 @@ class Chapter(models.Model):
     chapter_no = models.CharField(max_length=10)
     content = HTMLField()
 
+    def __str__(self) -> str:
+        return self.title
+
+
 
 class Note(models.Model):
     chapter = models.ForeignKey('Chapter', on_delete=models.CASCADE, related_name='notes')
