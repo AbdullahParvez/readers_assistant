@@ -35,6 +35,46 @@
         padding: 0 0 0 0;
     }
 
+    .square {
+        width: 32px;
+        height: 32px;
+        float: left;
+        font-size: 30px;
+        color: rgb(133, 96, 212);
+    }
+
+    .kanji_div{
+        position: relative;
+        display: inline-block;
+        margin-bottom: 3px;
+    }
+
+    .kanji_div,  h3{
+        margin: 0;
+    }
+
+    .kanji_div,  p{
+        margin: 0;
+    }
+
+    .kanji_div .tooltiptext {
+        display: none;
+        width: 300px;
+        height: fit-content;
+        background-color: #bfccd6;
+        color: black;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+        top: 100%;
+        left: 20%;
+        margin-left: -30px;
+    }
+
 </style>
 <script src="{% static 'tinymce/js/tinymce/tinymce.min.js'%}"></script>
 <script>
@@ -85,6 +125,15 @@
         </div>
             <div class="col exp_column">
                 <h3>Meaning</h3>
+                <div id="kanji_div" class="kanji_div">
+                    <div id="kanji_list"></div>
+                    <div class="tooltiptext" id="tooltip">
+                        <h3 id="t_heading"></h3>
+                        <p id="t_onyomi"></p>
+                        <p id="t_kunyomi"></p>
+                        <p id="t_meaning"></p>
+                    </div>
+                </div>
                 <div id="meanings">
     
                 </div>
@@ -147,6 +196,7 @@
 <div id="remove_from_favourite_url" data-remove-from-favourite-url="{% url 'article:remove_from_favourite' %}" type="hidden"></div>
 <div id="note_create_url" data-note-create-url="{% url 'article:note_create' %}" type="hidden"></div>
 <div id="note_delete_url" data-note-delete-url="{% url 'article:delete_note' %}" type="hidden"></div>
+<div id="kanji_details_url" data-kanji-details-url="{% url 'kanji:kanji_hover' %}" type="hidden"></div>
 
 {% endblock body %}
 

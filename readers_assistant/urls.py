@@ -13,6 +13,7 @@ urlpatterns = [
     path('', include('home.urls')),
     path('article/', include('article.urls')),
     path('book/', include('book.urls')),
+    path('kanji/', include('kanji.urls')),
     path('word/meaning/', get_word_meaning, name='get_word_meaning'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

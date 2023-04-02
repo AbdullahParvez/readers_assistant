@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'article',
     'book',
     'jmdict',
+    'kanji',
 ]
 
 MIDDLEWARE = [

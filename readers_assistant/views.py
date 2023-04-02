@@ -11,6 +11,7 @@ from jmdict.models import Dictionary_Entry, Sense, Example
 
 from mongoengine import *
 from mongoengine.queryset.visitor import Q
+import re
 
 connect('jmdict')
 tokenizer_obj = dictionary.Dictionary(dict_type='core').create()
@@ -33,10 +34,18 @@ def get_word_meaning(request):
                 word = tokenize_words.normalized_form()
                 result = Dictionary_Entry.objects(Q(k_ele__exact=selelected_text)|Q(r_ele__exact=selelected_text))
             root_word = str(tokenize_words)
-        # print(root_word)
         meaning = get_meaning(result)
+        kanji_regex = re.compile("[\u4e00-\u9faf]+")
+
+        # find all the matches in the text
+        kanji_matches=[]
+        try:
+            kanji_matches = list(kanji_regex.findall(root_word)[0])
+        except Exception:
+            pass
         context['meanings'] = meaning
         context['root_word'] = root_word
+        context['kanjis'] = kanji_matches
         return JsonResponse({"success": True, 'context': context}, status=200)
 
     return JsonResponse({"success": False}, status=400)

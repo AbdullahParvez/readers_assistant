@@ -85,6 +85,24 @@ var document_handler = function () {
                     meaning_div.innerHTML = '';
                     const meanings = data.context.meanings;
                     const root_word = data.context.root_word;
+                    const kanjis = data.context.kanjis;
+                    let kanji_list_div = document.getElementById('kanji_list');
+                    kanji_list_div.innerHTML="";
+                    for (let i=0; i<kanjis.length; i++){
+                        let newDiv = document.createElement("div");
+                        newDiv.className = "square";
+                        newDiv.innerHTML = kanjis[i];
+                        newDiv.onclick = function () {
+                            document_handler.showTooltip(this);
+                        };
+                        newDiv.onmouseout = function () {
+                            document_handler.hideTooltip();
+                        };
+                        kanji_list_div.appendChild(newDiv);
+                    }
+                    // meaning_div.appendChild(kanji_div);
+
+
                     if (meanings.length > 0){
                         for (let i=0; i<meanings.length; i++){
                             let icon_class;
@@ -164,6 +182,39 @@ var document_handler = function () {
                 return;
             });
         }
+    }
+
+    function showTooltip(input) {
+        let kanji = input.innerText;
+        let payload = {kanji: kanji};
+        const url = document.getElementById('kanji_details_url').getAttribute("data-kanji-details-url");
+        fetch(url, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRFToken": base.csrftoken,
+            },
+            body: JSON.stringify(payload)
+        })
+            .then(response => response.json())
+            .then(data => {
+                document_handler.hover_data(data['context']);
+            });
+    }
+
+    function hover_data(data) {
+        let tooptip = document.getElementById('tooltip');
+        document.getElementById('t_heading').innerText = "Kanji: "+data['kanji'];
+        document.getElementById('t_onyomi').innerText = "Onyomi: "+data['k_onyomi'];
+        document.getElementById('t_kunyomi').innerText = "Kunyomi: "+data['k_kunyomi'];
+        document.getElementById('t_meaning').innerText = "Meaning:  "+data['k_meaning'];
+        tooptip.style.display = "block";
+    }
+
+    function hideTooltip() {
+        let tooptip = document.getElementById('tooltip');
+        tooptip.style.display = "none";
     }
 
     function manageFavourite(checkbox){
@@ -370,6 +421,9 @@ var document_handler = function () {
         create_note:create_note,
         getNote:getNote,
         deleteNote:deleteNote,
-        set_search_link:set_search_link
+        set_search_link:set_search_link,
+        showTooltip:showTooltip,
+        hideTooltip:hideTooltip,
+        hover_data:hover_data,
     }
 }();
