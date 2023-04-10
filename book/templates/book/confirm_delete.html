@@ -1,0 +1,28 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %} Delete {% endblock title %}
+
+
+{% block page_specific_css %}
+
+{% endblock page_specific_css %}
+
+{% block body %}
+<form method="post">{% csrf_token %}
+     
+ 
+ 
+ 
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+     
+     
+     
+     
+        <input type="submit" value="Confirm">
+    </form>
+{% endblock body %}
+
+{% block page_specific_js %}
+{% endblock page_specific_js %}

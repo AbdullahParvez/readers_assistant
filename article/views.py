@@ -1,9 +1,10 @@
 '''view for article app'''
 import json
 from django.http import JsonResponse
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -51,6 +52,25 @@ class ArticleView(LoginRequiredMixin, DetailView):
         context = self.get_context_data()
         template_name = self.get_template_names()
         return render(request, template_name, context)
+
+
+class UpdateArticle(LoginRequiredMixin, UpdateView):
+    model = Article
+    form_class = ArticleForm
+    template_name = 'article/article_update.html'
+
+
+    def get_success_url(self):
+        #print(self.pk)
+        return reverse_lazy("article:view_article", kwargs={'pk': self.object.pk})
+
+
+class DeleteArticle(LoginRequiredMixin, DeleteView):
+    model = Article
+    success_url ="/"
+     
+    template_name = "article/confirm_delete.html"
+
 
 
 @login_required

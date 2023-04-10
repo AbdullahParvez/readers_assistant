@@ -2,7 +2,8 @@
 import json
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -51,6 +52,12 @@ def details_book(request, id):
     return render(request, "book/book_details.html", context=context)
 
 
+class BookDelete(LoginRequiredMixin, DeleteView):
+    model = Book
+    success_url ="/"
+     
+    template_name = "book/confirm_delete.html"
+
 
 class ChapterCreate(LoginRequiredMixin, CreateView):
     form_class = ChapterForm
@@ -66,6 +73,25 @@ class ChapterCreate(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.save()
         return redirect("book:chapter_details", pk=self.object.id)
+
+
+class ChapterUpdate(LoginRequiredMixin, UpdateView):
+    model = Chapter
+    form_class = ChapterForm
+    template_name = 'book/chapter_create.html'
+    
+
+    def get_success_url(self):
+        #print(self.pk)
+        return reverse_lazy("book:chapter_details", kwargs={'pk': self.object.pk})
+    
+
+class ChapterDelete(LoginRequiredMixin, DeleteView):
+    model = Chapter
+    success_url ="/"
+     
+    template_name = "book/confirm_delete.html"
+
 
 def sorting(lst):
     lst2 = sorted(lst, key=len, reverse=True)
