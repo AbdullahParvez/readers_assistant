@@ -23,17 +23,21 @@ def get_word_meaning(request):
         # import time
         # start = time.time()
         data = json.load(request)
-        selelected_text = data['word']
+        selelected_text = data['word'].replace(" ", "")
         result = Dictionary_Entry.objects(Q(k_ele__exact=selelected_text)|Q(r_ele__exact=selelected_text))
         root_word = selelected_text
         if not result:
-            tokenize_words = tokenizer_obj.tokenize(data['word'], mode)[0]
-            word = tokenize_words.dictionary_form()
+            tokenize_words = tokenizer_obj.tokenize(selelected_text, mode)
+            token_word = tokenize_words[0]
+            for token in tokenize_words:
+                if len(str(token))>len(str(token_word)):
+                    token_word=token
+            word = token_word.dictionary_form()
             result = Dictionary_Entry.objects(Q(k_ele__exact=word)|Q(r_ele__exact=word))
             if not result:
-                word = tokenize_words.normalized_form()
-                result = Dictionary_Entry.objects(Q(k_ele__exact=selelected_text)|Q(r_ele__exact=selelected_text))
-            root_word = str(tokenize_words)
+                normalized_word = token_word.normalized_form()
+                result = Dictionary_Entry.objects(Q(k_ele__exact=normalized_word)|Q(r_ele__exact=normalized_word))
+            root_word = str(token_word)
         meaning = get_meaning(result)
         kanji_regex = re.compile("[\u4e00-\u9faf]+")
 

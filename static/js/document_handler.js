@@ -49,16 +49,20 @@ var document_handler = function () {
         let parentDiv;
         let word;
         if (window.getSelection) {
-            word =  window.getSelection().toString();
+            word =  window.getSelection().toString().replace(/\s/g, '');
             parentDiv = window.getSelection().anchorNode.parentElement.parentNode;
+
+            function get_details(){
+                document_handler.set_search_link(word);
+                document_handler.getMeaning(word);
+                document_handler.getNote(word);
+            }
             if (parentDiv.id=='content'){
-                document_handler.set_search_link(word);
-                document_handler.getMeaning(word);
-                document_handler.getNote(word);
+                get_details();
             }else if (parentDiv.parentNode.id=='content'){
-                document_handler.set_search_link(word);
-                document_handler.getMeaning(word);
-                document_handler.getNote(word);
+                get_details();
+            }else if (parentDiv.parentNode.parentNode.id=='content'){
+                get_details();
             }
         }
     }
@@ -199,11 +203,15 @@ var document_handler = function () {
         })
             .then(response => response.json())
             .then(data => {
-                document_handler.hover_data(data['context']);
+                if (data.success){
+                    document_handler.show_kanji_details(data['context']);
+                }else{
+                    document_handler.show_kanji_error_message(kanji);
+                }
             });
     }
 
-    function hover_data(data) {
+    function show_kanji_details(data) {
         let tooptip = document.getElementById('tooltip');
         document.getElementById('t_heading').innerText = "Kanji: "+data['kanji'];
         document.getElementById('t_onyomi').innerText = "Onyomi: "+data['k_onyomi'];
@@ -211,10 +219,16 @@ var document_handler = function () {
         document.getElementById('t_meaning').innerText = "Meaning:  "+data['k_meaning'];
         tooptip.style.display = "block";
     }
+    function show_kanji_error_message(kanji) {
+        let tooptip = document.getElementById('tooltip_error');
+        document.getElementById('t_heading').innerText = "Kanji: "+kanji;
+        tooptip.style.display = "block";
+    }
 
     function hideTooltip() {
         let tooptip = document.getElementById('tooltip');
         tooptip.style.display = "none";
+        tooltip_error.style.display = "none";
     }
 
     function manageFavourite(checkbox){
@@ -424,6 +438,7 @@ var document_handler = function () {
         set_search_link:set_search_link,
         showTooltip:showTooltip,
         hideTooltip:hideTooltip,
-        hover_data:hover_data,
+        show_kanji_details:show_kanji_details,
+        show_kanji_error_message:show_kanji_error_message
     }
 }();

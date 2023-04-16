@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 import logging
+from django.core.exceptions import ObjectDoesNotExist
 
 import json
 
@@ -44,12 +45,15 @@ def kanji_hover(request):
     if request.method == "POST":
         data = json.load(request)
         kanji = data.get('kanji')
-        k = get_object_or_404(Kanji, kanji=kanji)
-        context = {
-            'kanji': k.kanji,
-            'k_onyomi': k.onyomi,
-            'k_kunyomi':k.kunyomi,
-            'k_meaning':k.meaning,
-        }
-        return JsonResponse({"success": True, 'context': context},status=200)
-    return JsonResponse({"success": False}, status=400)
+        try:
+            k = Kanji.objects.get(kanji=kanji)
+            context = {
+                'kanji': k.kanji,
+                'k_onyomi': k.onyomi,
+                'k_kunyomi':k.kunyomi,
+                'k_meaning':k.meaning,
+            }
+            return JsonResponse({"success": True, 'context': context},status=200)
+        except ObjectDoesNotExist as err:
+            print(err)
+            return JsonResponse({"success": False}, status=200)
