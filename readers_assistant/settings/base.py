@@ -20,6 +20,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'tinymce',
     'fontawesomefree',
+    'rest_framework',
+    'drf_spectacular',
 
     'home',
     'user',
@@ -27,6 +29,7 @@ INSTALLED_APPS = [
     'book',
     'jmdict',
     'kanji',
+    'vocab',
 ]
 
 MIDDLEWARE = [
@@ -107,3 +110,8 @@ TINYMCE_COMPRESSOR = False
 
 LOGIN_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
+}

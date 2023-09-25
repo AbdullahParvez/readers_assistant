@@ -102,3 +102,10 @@ resources/static/*
 data.json
 JMdict_e_examp.xml
 JMdict_e
+
+
+*~
+kanjivg.xml
+*.pyc
+kanjivg-*xml.gz
+kanjivg-*.zip
