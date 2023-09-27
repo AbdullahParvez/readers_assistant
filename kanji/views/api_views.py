@@ -33,7 +33,7 @@ def get_kanji_details(kanji):
         'r_readings': k.radical.readings,
         # 'r_alternatives': k.radical.alternative,
         # 'kanji_by_radical': kanji_list,
-        'similar_sounded_kanji':similar_kanji_list
+        'similar_kanji_list':similar_kanji_list
     }
     return context
 
