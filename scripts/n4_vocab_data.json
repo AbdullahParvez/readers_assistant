@@ -26,7 +26,7 @@
                             "id": 40003,
                             "word": "以上",
                             "pronunciation": "いじょう",
-                            "meaning": "more than,this is all",
+                            "meaning": "more than, this is all",
                             "radical": "一",
                             "kanji": "上"
                         },
@@ -58,7 +58,7 @@
                             "id": 40007,
                             "word": "下る",
                             "pronunciation": "さがる",
-                            "meaning": "to get down,to descend",
+                            "meaning": "to get down, to descend",
                             "radical": "一",
                             "kanji": "下"
                         },
@@ -66,7 +66,7 @@
                             "id": 40008,
                             "word": "下げる",
                             "pronunciation": "さげる",
-                            "meaning": "to hang,to lower,to move back",
+                            "meaning": "to hang, to lower, to move back",
                             "radical": "一",
                             "kanji": "下"
                         },
@@ -130,7 +130,7 @@
                             "id": 40016,
                             "word": "申し上げる",
                             "pronunciation": "もうしあげる",
-                            "meaning": "(humble) to say,to tell",
+                            "meaning": "(humble) to say, to tell",
                             "radical": "一",
                             "kanji": "上"
                         },
@@ -146,7 +146,7 @@
                             "id": 40018,
                             "word": "中学校",
                             "pronunciation": "ちゅうがっこう",
-                            "meaning": "junior high school,middle school",
+                            "meaning": "junior high school, middle school",
                             "radical": "丨",
                             "kanji": "中"
                         },
@@ -255,7 +255,7 @@
                             "id": 40031,
                             "word": "大事",
                             "pronunciation": "だいじ",
-                            "meaning": "important,valuable,serious matter",
+                            "meaning": "important, valuable, serious matter",
                             "radical": "亅",
                             "kanji": "事"
                         },
@@ -287,7 +287,7 @@
                             "id": 40035,
                             "word": "交通",
                             "pronunciation": "こうつう",
-                            "meaning": "traffic,transportation",
+                            "meaning": "traffic, transportation",
                             "radical": "亠",
                             "kanji": "交"
                         },
@@ -319,7 +319,7 @@
                             "id": 40039,
                             "word": "以上",
                             "pronunciation": "いじょう",
-                            "meaning": "more than,this is all",
+                            "meaning": "more than, this is all",
                             "radical": "人",
                             "kanji": "以"
                         },
@@ -364,7 +364,7 @@
                             "id": 40044,
                             "word": "代わり",
                             "pronunciation": "かわり",
-                            "meaning": "substitute,alternate",
+                            "meaning": "substitute, alternate",
                             "radical": "人",
                             "kanji": "代"
                         },
@@ -388,7 +388,7 @@
                             "id": 40047,
                             "word": "今度",
                             "pronunciation": "こんど",
-                            "meaning": "now,next time",
+                            "meaning": "now, next time",
                             "radical": "人",
                             "kanji": "今"
                         },
@@ -436,7 +436,7 @@
                             "id": 40053,
                             "word": "住所",
                             "pronunciation": "じゅうしょ",
-                            "meaning": "an address,a residence",
+                            "meaning": "an address, a residence",
                             "radical": "人",
                             "kanji": "住"
                         },
@@ -460,7 +460,7 @@
                             "id": 40056,
                             "word": "将来",
                             "pronunciation": "しょうらい",
-                            "meaning": "future,prospects",
+                            "meaning": "future, prospects",
                             "radical": "人",
                             "kanji": "来"
                         },
@@ -593,7 +593,7 @@
                             "id": 40072,
                             "word": "光る",
                             "pronunciation": "ひかる",
-                            "meaning": "to shine,to glitter",
+                            "meaning": "to shine, to glitter",
                             "radical": "儿",
                             "kanji": "光"
                         },
@@ -678,7 +678,7 @@
                             "id": 40082,
                             "word": "具合",
                             "pronunciation": "ぐあい",
-                            "meaning": "condition,health",
+                            "meaning": "condition, health",
                             "radical": "八",
                             "kanji": "具"
                         },
@@ -702,7 +702,7 @@
                             "id": 40085,
                             "word": "道具",
                             "pronunciation": "どうぐ",
-                            "meaning": "tool,means",
+                            "meaning": "tool, means",
                             "radical": "八",
                             "kanji": "具"
                         },
@@ -750,7 +750,7 @@
                             "id": 40091,
                             "word": "引き出し",
                             "pronunciation": "ひきだし",
-                            "meaning": "drawer,drawing out",
+                            "meaning": "drawer, drawing out",
                             "radical": "凵",
                             "kanji": "出"
                         },
@@ -798,7 +798,7 @@
                             "id": 40097,
                             "word": "最初",
                             "pronunciation": "さいしょ",
-                            "meaning": "beginning,first",
+                            "meaning": "beginning, first",
                             "radical": "刀",
                             "kanji": "初"
                         },
@@ -867,7 +867,7 @@
                             "id": 40105,
                             "word": "割合",
                             "pronunciation": "わりあい",
-                            "meaning": "rate,ratio,percentage",
+                            "meaning": "rate, ratio, percentage",
                             "radical": "刀",
                             "kanji": "割"
                         },
@@ -923,7 +923,7 @@
                             "id": 40112,
                             "word": "力",
                             "pronunciation": "ちから",
-                            "meaning": "strength,power",
+                            "meaning": "strength, power",
                             "radical": "力",
                             "kanji": "力"
                         },
@@ -979,7 +979,7 @@
                             "id": 40119,
                             "word": "原因",
                             "pronunciation": "げんいん",
-                            "meaning": "cause,source",
+                            "meaning": "cause, source",
                             "radical": "厂",
                             "kanji": "原"
                         },
@@ -987,7 +987,7 @@
                             "id": 40120,
                             "word": "参る",
                             "pronunciation": "まいる",
-                            "meaning": "(humble) to go,to come",
+                            "meaning": "(humble) to go, to come",
                             "radical": "厶",
                             "kanji": "参"
                         }
@@ -1088,7 +1088,7 @@
                             "id": 40132,
                             "word": "具合",
                             "pronunciation": "ぐあい",
-                            "meaning": "condition,health",
+                            "meaning": "condition, health",
                             "radical": "口",
                             "kanji": "合"
                         },
@@ -1104,7 +1104,7 @@
                             "id": 40134,
                             "word": "試合",
                             "pronunciation": "しあい",
-                            "meaning": "match,game",
+                            "meaning": "match, game",
                             "radical": "口",
                             "kanji": "合"
                         },
@@ -1144,7 +1144,7 @@
                             "id": 40139,
                             "word": "都合",
                             "pronunciation": "つごう",
-                            "meaning": "circumstances,convenience",
+                            "meaning": "circumstances, convenience",
                             "radical": "口",
                             "kanji": "合"
                         },
@@ -1229,7 +1229,7 @@
                             "id": 40149,
                             "word": "割合",
                             "pronunciation": "わりあい",
-                            "meaning": "rate,ratio,percentage",
+                            "meaning": "rate, ratio, percentage",
                             "radical": "口",
                             "kanji": "合"
                         },
@@ -1245,7 +1245,7 @@
                             "id": 40151,
                             "word": "原因",
                             "pronunciation": "げんいん",
-                            "meaning": "cause,source",
+                            "meaning": "cause, source",
                             "radical": "囗",
                             "kanji": "因"
                         },
@@ -1362,7 +1362,7 @@
                             "id": 40165,
                             "word": "坂",
                             "pronunciation": "さか",
-                            "meaning": "slope,hill",
+                            "meaning": "slope, hill",
                             "radical": "土",
                             "kanji": "坂"
                         },
@@ -1410,7 +1410,7 @@
                             "id": 40171,
                             "word": "塗る",
                             "pronunciation": "ぬる",
-                            "meaning": "to paint,to plaster",
+                            "meaning": "to paint, to plaster",
                             "radical": "土",
                             "kanji": "塗"
                         },
@@ -1503,7 +1503,7 @@
                             "id": 40182,
                             "word": "失敗",
                             "pronunciation": "しっぱい",
-                            "meaning": "failure,mistake",
+                            "meaning": "failure, mistake",
                             "radical": "大",
                             "kanji": "失"
                         },
@@ -1519,7 +1519,7 @@
                             "id": 40184,
                             "word": "大事",
                             "pronunciation": "だいじ",
-                            "meaning": "important,valuable,serious matter",
+                            "meaning": "important, valuable, serious matter",
                             "radical": "大",
                             "kanji": "大"
                         },
@@ -1567,7 +1567,7 @@
                             "id": 40190,
                             "word": "彼女",
                             "pronunciation": "かのじょ",
-                            "meaning": "she,girlfriend",
+                            "meaning": "she, girlfriend",
                             "radical": "女",
                             "kanji": "女"
                         },
@@ -1660,7 +1660,7 @@
                             "id": 40201,
                             "word": "ご存じ",
                             "pronunciation": "ごぞんじ",
-                            "meaning": "knowing,acquaintance",
+                            "meaning": "knowing, acquaintance",
                             "radical": "子",
                             "kanji": "存"
                         },
@@ -1684,7 +1684,7 @@
                             "id": 40204,
                             "word": "数学",
                             "pronunciation": "すうがく",
-                            "meaning": "mathematics,arithmetic",
+                            "meaning": "mathematics, arithmetic",
                             "radical": "子",
                             "kanji": "学"
                         },
@@ -1700,7 +1700,7 @@
                             "id": 40206,
                             "word": "中学校",
                             "pronunciation": "ちゅうがっこう",
-                            "meaning": "junior high school,middle school",
+                            "meaning": "junior high school, middle school",
                             "radical": "子",
                             "kanji": "学"
                         },
@@ -1780,7 +1780,7 @@
                             "id": 40216,
                             "word": "客",
                             "pronunciation": "きゃく",
-                            "meaning": "guest,customer",
+                            "meaning": "guest, customer",
                             "radical": "宀",
                             "kanji": "客"
                         },
@@ -1804,7 +1804,7 @@
                             "id": 40219,
                             "word": "研究室",
                             "pronunciation": "けんきゅうしつ",
-                            "meaning": "study room,laboratory",
+                            "meaning": "study room, laboratory",
                             "radical": "宀",
                             "kanji": "室"
                         },
@@ -1865,7 +1865,7 @@
                             "id": 40226,
                             "word": "将来",
                             "pronunciation": "しょうらい",
-                            "meaning": "future,prospects",
+                            "meaning": "future, prospects",
                             "radical": "寸",
                             "kanji": "将"
                         },
@@ -2054,7 +2054,7 @@
                             "id": 40249,
                             "word": "今度",
                             "pronunciation": "こんど",
-                            "meaning": "now,next time",
+                            "meaning": "now, next time",
                             "radical": "广",
                             "kanji": "度"
                         },
@@ -2094,7 +2094,7 @@
                             "id": 40254,
                             "word": "引き出し",
                             "pronunciation": "ひきだし",
-                            "meaning": "drawer,drawing out",
+                            "meaning": "drawer, drawing out",
                             "radical": "弓",
                             "kanji": "引"
                         },
@@ -2134,7 +2134,7 @@
                             "id": 40259,
                             "word": "彼女",
                             "pronunciation": "かのじょ",
-                            "meaning": "she,girlfriend",
+                            "meaning": "she, girlfriend",
                             "radical": "彳",
                             "kanji": "彼"
                         },
@@ -2142,7 +2142,7 @@
                             "id": 40260,
                             "word": "彼",
                             "pronunciation": "かれ",
-                            "meaning": "he,boyfriend",
+                            "meaning": "he, boyfriend",
                             "radical": "彳",
                             "kanji": "彼"
                         }
@@ -2171,7 +2171,7 @@
                             "id": 40263,
                             "word": "最後",
                             "pronunciation": "さいご",
-                            "meaning": "last,end",
+                            "meaning": "last, end",
                             "radical": "彳",
                             "kanji": "後"
                         },
@@ -2251,7 +2251,7 @@
                             "id": 40273,
                             "word": "怒る",
                             "pronunciation": "おこる",
-                            "meaning": "to get angry,to be angry",
+                            "meaning": "to get angry, to be angry",
                             "radical": "心",
                             "kanji": "怒"
                         },
@@ -2267,7 +2267,7 @@
                             "id": 40275,
                             "word": "思う",
                             "pronunciation": "おもう",
-                            "meaning": "to think,to feel",
+                            "meaning": "to think, to feel",
                             "radical": "心",
                             "kanji": "思"
                         },
@@ -2283,7 +2283,7 @@
                             "id": 40277,
                             "word": "必ず",
                             "pronunciation": "かならず",
-                            "meaning": "certainly,necessarily",
+                            "meaning": "certainly, necessarily",
                             "radical": "心",
                             "kanji": "必"
                         },
@@ -2307,7 +2307,7 @@
                             "id": 40280,
                             "word": "心",
                             "pronunciation": "こころ",
-                            "meaning": "core,heart",
+                            "meaning": "core, heart",
                             "radical": "心",
                             "kanji": "心"
                         }
@@ -2336,7 +2336,7 @@
                             "id": 40283,
                             "word": "習慣",
                             "pronunciation": "しゅうかん",
-                            "meaning": "custom,manners",
+                            "meaning": "custom, manners",
                             "radical": "心",
                             "kanji": "慣"
                         },
@@ -2456,7 +2456,7 @@
                             "id": 40298,
                             "word": "住所",
                             "pronunciation": "じゅうしょ",
-                            "meaning": "an address,a residence",
+                            "meaning": "an address, a residence",
                             "radical": "戸",
                             "kanji": "所"
                         },
@@ -2557,7 +2557,7 @@
                             "id": 40310,
                             "word": "技術",
                             "pronunciation": "ぎじゅつ",
-                            "meaning": "art,technology,skill",
+                            "meaning": "art, technology, skill",
                             "radical": "手",
                             "kanji": "技"
                         },
@@ -2565,7 +2565,7 @@
                             "id": 40311,
                             "word": "気持ち",
                             "pronunciation": "きもち",
-                            "meaning": "feeling,mood",
+                            "meaning": "feeling, mood",
                             "radical": "手",
                             "kanji": "持"
                         },
@@ -2666,7 +2666,7 @@
                             "id": 40323,
                             "word": "拾う",
                             "pronunciation": "ひろう",
-                            "meaning": "to pick up,to gather",
+                            "meaning": "to pick up, to gather",
                             "radical": "手",
                             "kanji": "拾"
                         },
@@ -2690,7 +2690,7 @@
                             "id": 40326,
                             "word": "揺れる",
                             "pronunciation": "ゆれる",
-                            "meaning": "to shake,to sway",
+                            "meaning": "to shake, to sway",
                             "radical": "手",
                             "kanji": "揺"
                         },
@@ -2786,7 +2786,7 @@
                             "id": 40338,
                             "word": "暮れる",
                             "pronunciation": "くれる",
-                            "meaning": "to get dark,to come to an end",
+                            "meaning": "to get dark, to come to an end",
                             "radical": "日",
                             "kanji": "暮"
                         },
@@ -2794,7 +2794,7 @@
                             "id": 40339,
                             "word": "景色",
                             "pronunciation": "けしき",
-                            "meaning": "scene,landscape",
+                            "meaning": "scene, landscape",
                             "radical": "日",
                             "kanji": "景"
                         },
@@ -2847,7 +2847,7 @@
                             "id": 40345,
                             "word": "昼間",
                             "pronunciation": "ひるま",
-                            "meaning": "daytime,during the day",
+                            "meaning": "daytime, during the day",
                             "radical": "日",
                             "kanji": "昼"
                         },
@@ -2943,7 +2943,7 @@
                             "id": 40357,
                             "word": "最近",
                             "pronunciation": "さいきん",
-                            "meaning": "latest,nowadays",
+                            "meaning": "latest, nowadays",
                             "radical": "曰",
                             "kanji": "最"
                         },
@@ -2951,7 +2951,7 @@
                             "id": 40358,
                             "word": "最後",
                             "pronunciation": "さいご",
-                            "meaning": "last,end",
+                            "meaning": "last, end",
                             "radical": "曰",
                             "kanji": "最"
                         },
@@ -2959,7 +2959,7 @@
                             "id": 40359,
                             "word": "最初",
                             "pronunciation": "さいしょ",
-                            "meaning": "beginning,first",
+                            "meaning": "beginning, first",
                             "radical": "曰",
                             "kanji": "最"
                         },
@@ -2967,7 +2967,7 @@
                             "id": 40360,
                             "word": "社会",
                             "pronunciation": "しゃかい",
-                            "meaning": "society,public",
+                            "meaning": "society, public",
                             "radical": "曰",
                             "kanji": "会"
                         }
@@ -3012,7 +3012,7 @@
                             "id": 40365,
                             "word": "植える",
                             "pronunciation": "うえる",
-                            "meaning": "to plant,to grow",
+                            "meaning": "to plant, to grow",
                             "radical": "木",
                             "kanji": "植"
                         },
@@ -3132,7 +3132,7 @@
                             "id": 40380,
                             "word": "中学校",
                             "pronunciation": "ちゅうがっこう",
-                            "meaning": "junior high school,middle school",
+                            "meaning": "junior high school, middle school",
                             "radical": "木",
                             "kanji": "校"
                         }
@@ -3153,7 +3153,7 @@
                             "id": 40382,
                             "word": "林",
                             "pronunciation": "はやし",
-                            "meaning": "woods,forester",
+                            "meaning": "woods, forester",
                             "radical": "木",
                             "kanji": "林"
                         },
@@ -3281,7 +3281,7 @@
                             "id": 40398,
                             "word": "気",
                             "pronunciation": "き",
-                            "meaning": "spirit,mood",
+                            "meaning": "spirit, mood",
                             "radical": "气",
                             "kanji": "気"
                         },
@@ -3297,7 +3297,7 @@
                             "id": 40400,
                             "word": "気持ち",
                             "pronunciation": "きもち",
-                            "meaning": "feeling,mood",
+                            "meaning": "feeling, mood",
                             "radical": "气",
                             "kanji": "気"
                         }
@@ -3310,7 +3310,7 @@
                             "id": 40401,
                             "word": "空気",
                             "pronunciation": "くうき",
-                            "meaning": "air,atmosphere",
+                            "meaning": "air, atmosphere",
                             "radical": "气",
                             "kanji": "気"
                         },
@@ -3326,7 +3326,7 @@
                             "id": 40403,
                             "word": "浅い",
                             "pronunciation": "あさい",
-                            "meaning": "shallow,superficial",
+                            "meaning": "shallow, superficial",
                             "radical": "水",
                             "kanji": "浅"
                         },
@@ -3374,7 +3374,7 @@
                             "id": 40409,
                             "word": "経済",
                             "pronunciation": "けいざい",
-                            "meaning": "finance,economy",
+                            "meaning": "finance, economy",
                             "radical": "水",
                             "kanji": "済"
                         },
@@ -3422,7 +3422,7 @@
                             "id": 40415,
                             "word": "滑る",
                             "pronunciation": "すべる",
-                            "meaning": "to slide,to slip",
+                            "meaning": "to slide, to slip",
                             "radical": "水",
                             "kanji": "滑"
                         },
@@ -3446,7 +3446,7 @@
                             "id": 40418,
                             "word": "政治",
                             "pronunciation": "せいじ",
-                            "meaning": "politics,government",
+                            "meaning": "politics, government",
                             "radical": "水",
                             "kanji": "治"
                         },
@@ -3483,7 +3483,7 @@
                             "id": 40422,
                             "word": "漬ける",
                             "pronunciation": "つける",
-                            "meaning": "to soak,to pickle",
+                            "meaning": "to soak, to pickle",
                             "radical": "水",
                             "kanji": "漬"
                         },
@@ -3507,7 +3507,7 @@
                             "id": 40425,
                             "word": "治る",
                             "pronunciation": "なおる",
-                            "meaning": "to be cured,to heal",
+                            "meaning": "to be cured, to heal",
                             "radical": "水",
                             "kanji": "治"
                         },
@@ -3587,7 +3587,7 @@
                             "id": 40435,
                             "word": "沸かす",
                             "pronunciation": "わかす",
-                            "meaning": "to boil,to heat",
+                            "meaning": "to boil, to heat",
                             "radical": "水",
                             "kanji": "沸"
                         },
@@ -3595,7 +3595,7 @@
                             "id": 40436,
                             "word": "沸く",
                             "pronunciation": "わく",
-                            "meaning": "to boil, to grow hot,to get excited",
+                            "meaning": "to boil, to grow hot, to get excited",
                             "radical": "水",
                             "kanji": "沸"
                         },
@@ -3627,7 +3627,7 @@
                             "id": 40440,
                             "word": "無くなる",
                             "pronunciation": "なくなる",
-                            "meaning": "to disappear,to get lost",
+                            "meaning": "to disappear, to get lost",
                             "radical": "火",
                             "kanji": "無"
                         }
@@ -3664,7 +3664,7 @@
                             "id": 40444,
                             "word": "焼く",
                             "pronunciation": "やく",
-                            "meaning": "to bake,to grill",
+                            "meaning": "to bake, to grill",
                             "radical": "火",
                             "kanji": "焼"
                         },
@@ -3672,7 +3672,7 @@
                             "id": 40445,
                             "word": "焼ける",
                             "pronunciation": "やける",
-                            "meaning": "to burn,to be roasted",
+                            "meaning": "to burn, to be roasted",
                             "radical": "火",
                             "kanji": "焼"
                         },
@@ -3760,7 +3760,7 @@
                             "id": 40456,
                             "word": "特に",
                             "pronunciation": "とくに",
-                            "meaning": "particularly,especially",
+                            "meaning": "particularly, especially",
                             "radical": "牛",
                             "kanji": "特"
                         },
@@ -4010,7 +4010,7 @@
                             "id": 40486,
                             "word": "申し上げる",
                             "pronunciation": "もうしあげる",
-                            "meaning": "(humble) to say,to tell",
+                            "meaning": "(humble) to say, to tell",
                             "radical": "田",
                             "kanji": "申"
                         },
@@ -4018,7 +4018,7 @@
                             "id": 40487,
                             "word": "申す",
                             "pronunciation": "もうす",
-                            "meaning": "(humble) to be called,to say",
+                            "meaning": "(humble) to be called, to say",
                             "radical": "田",
                             "kanji": "申"
                         },
@@ -4066,7 +4066,7 @@
                             "id": 40493,
                             "word": "盛ん",
                             "pronunciation": "さかん",
-                            "meaning": "popularity,prosperous",
+                            "meaning": "popularity, prosperous",
                             "radical": "皿",
                             "kanji": "盛"
                         },
@@ -4098,7 +4098,7 @@
                             "id": 40497,
                             "word": "直す",
                             "pronunciation": "なおす",
-                            "meaning": "to fix,to repair",
+                            "meaning": "to fix, to repair",
                             "radical": "目",
                             "kanji": "直"
                         },
@@ -4106,7 +4106,7 @@
                             "id": 40498,
                             "word": "直る",
                             "pronunciation": "なおる",
-                            "meaning": "to be fixed,to be repaired",
+                            "meaning": "to be fixed, to be repaired",
                             "radical": "目",
                             "kanji": "直"
                         },
@@ -4188,7 +4188,7 @@
                             "id": 40507,
                             "word": "研究室",
                             "pronunciation": "けんきゅうしつ",
-                            "meaning": "study room,laboratory",
+                            "meaning": "study room, laboratory",
                             "radical": "石",
                             "kanji": "研"
                         },
@@ -4244,7 +4244,7 @@
                             "id": 40514,
                             "word": "社会",
                             "pronunciation": "しゃかい",
-                            "meaning": "society,public",
+                            "meaning": "society, public",
                             "radical": "示",
                             "kanji": "社"
                         },
@@ -4321,7 +4321,7 @@
                             "id": 40523,
                             "word": "空気",
                             "pronunciation": "くうき",
-                            "meaning": "air,atmosphere",
+                            "meaning": "air, atmosphere",
                             "radical": "穴",
                             "kanji": "空"
                         },
@@ -4345,7 +4345,7 @@
                             "id": 40526,
                             "word": "研究室",
                             "pronunciation": "けんきゅうしつ",
-                            "meaning": "study room,laboratory",
+                            "meaning": "study room, laboratory",
                             "radical": "穴",
                             "kanji": "究"
                         },
@@ -4409,7 +4409,7 @@
                             "id": 40534,
                             "word": "笑う",
                             "pronunciation": "わらう",
-                            "meaning": "to laugh,to smile",
+                            "meaning": "to laugh, to smile",
                             "radical": "竹",
                             "kanji": "笑"
                         },
@@ -4457,7 +4457,7 @@
                             "id": 40540,
                             "word": "経済",
                             "pronunciation": "けいざい",
-                            "meaning": "finance,economy",
+                            "meaning": "finance, economy",
                             "radical": "糸",
                             "kanji": "経"
                         }
@@ -4590,7 +4590,7 @@
                             "id": 40556,
                             "word": "習慣",
                             "pronunciation": "しゅうかん",
-                            "meaning": "custom,manners",
+                            "meaning": "custom, manners",
                             "radical": "羽",
                             "kanji": "習"
                         },
@@ -4675,7 +4675,7 @@
                             "id": 40566,
                             "word": "育てる",
                             "pronunciation": "そだてる",
-                            "meaning": "to rear,to bring up",
+                            "meaning": "to rear, to bring up",
                             "radical": "肉",
                             "kanji": "育"
                         },
@@ -4723,7 +4723,7 @@
                             "id": 40572,
                             "word": "お見舞い",
                             "pronunciation": "おみまい",
-                            "meaning": "calling on someone who is ill,enquiry",
+                            "meaning": "calling on someone who is ill, enquiry",
                             "radical": "舛",
                             "kanji": "舞"
                         },
@@ -4739,7 +4739,7 @@
                             "id": 40574,
                             "word": "景色",
                             "pronunciation": "けしき",
-                            "meaning": "scene,landscape",
+                            "meaning": "scene, landscape",
                             "radical": "色",
                             "kanji": "色"
                         },
@@ -4824,7 +4824,7 @@
                             "id": 40584,
                             "word": "技術",
                             "pronunciation": "ぎじゅつ",
-                            "meaning": "art,technology,skill",
+                            "meaning": "art, technology, skill",
                             "radical": "行",
                             "kanji": "術"
                         },
@@ -4880,7 +4880,7 @@
                             "id": 40591,
                             "word": "複雑",
                             "pronunciation": "ふくざつ",
-                            "meaning": "complexity,complication",
+                            "meaning": "complexity, complication",
                             "radical": "衣",
                             "kanji": "複"
                         },
@@ -4912,7 +4912,7 @@
                             "id": 40595,
                             "word": "お見舞い",
                             "pronunciation": "おみまい",
-                            "meaning": "calling on someone who is ill,enquiry",
+                            "meaning": "calling on someone who is ill, enquiry",
                             "radical": "見",
                             "kanji": "見"
                         },
@@ -5109,7 +5109,7 @@
                             "id": 40619,
                             "word": "試合",
                             "pronunciation": "しあい",
-                            "meaning": "match,game",
+                            "meaning": "match, game",
                             "radical": "言",
                             "kanji": "試"
                         },
@@ -5202,7 +5202,7 @@
                             "id": 40630,
                             "word": "訳",
                             "pronunciation": "わけ",
-                            "meaning": "meaning,reason",
+                            "meaning": "meaning, reason",
                             "radical": "言",
                             "kanji": "訳"
                         },
@@ -5492,7 +5492,7 @@
                             "id": 40665,
                             "word": "交通",
                             "pronunciation": "こうつう",
-                            "meaning": "traffic,transportation",
+                            "meaning": "traffic, transportation",
                             "radical": "辵",
                             "kanji": "通"
                         },
@@ -5508,7 +5508,7 @@
                             "id": 40667,
                             "word": "最近",
                             "pronunciation": "さいきん",
-                            "meaning": "latest,nowadays",
+                            "meaning": "latest, nowadays",
                             "radical": "辵",
                             "kanji": "近"
                         },
@@ -5580,7 +5580,7 @@
                             "id": 40676,
                             "word": "道具",
                             "pronunciation": "どうぐ",
-                            "meaning": "tool,means",
+                            "meaning": "tool, means",
                             "radical": "辵",
                             "kanji": "道"
                         },
@@ -5689,7 +5689,7 @@
                             "id": 40689,
                             "word": "都合",
                             "pronunciation": "つごう",
-                            "meaning": "circumstances,convenience",
+                            "meaning": "circumstances, convenience",
                             "radical": "邑",
                             "kanji": "都"
                         },
@@ -5822,7 +5822,7 @@
                             "id": 40705,
                             "word": "昼間",
                             "pronunciation": "ひるま",
-                            "meaning": "daytime,during the day",
+                            "meaning": "daytime, during the day",
                             "radical": "門",
                             "kanji": "間"
                         },
@@ -5870,7 +5870,7 @@
                             "id": 40711,
                             "word": "隅",
                             "pronunciation": "すみ",
-                            "meaning": "corner,nook",
+                            "meaning": "corner, nook",
                             "radical": "阜",
                             "kanji": "隅"
                         },
@@ -5926,7 +5926,7 @@
                             "id": 40718,
                             "word": "複雑",
                             "pronunciation": "ふくざつ",
-                            "meaning": "complexity,complication",
+                            "meaning": "complexity, complication",
                             "radical": "隹",
                             "kanji": "雑"
                         },
@@ -5979,7 +5979,7 @@
                             "id": 40724,
                             "word": "音",
                             "pronunciation": "おと",
-                            "meaning": "sound,note",
+                            "meaning": "sound, note",
                             "radical": "音",
                             "kanji": "音"
                         },
@@ -6083,7 +6083,7 @@
                             "id": 40737,
                             "word": "騒ぐ",
                             "pronunciation": "さわぐ",
-                            "meaning": "to make noise,to be excited",
+                            "meaning": "to make noise, to be excited",
                             "radical": "馬",
                             "kanji": "騒"
                         },
@@ -6168,7 +6168,7 @@
                             "id": 40747,
                             "word": "点",
                             "pronunciation": "てん",
-                            "meaning": "point,dot",
+                            "meaning": "point, dot",
                             "radical": "黑",
                             "kanji": "点"
                         },
@@ -6317,7 +6317,7 @@
                             "id": 40765,
                             "word": "いらっしゃる",
                             "pronunciation": "いらっしゃる",
-                            "meaning": "(respectful) to be,to come or to go",
+                            "meaning": "(respectful) to be, to come or to go",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6570,7 +6570,7 @@
                             "id": 40796,
                             "word": "こと",
                             "pronunciation": "こと",
-                            "meaning": "thing,matter",
+                            "meaning": "thing, matter",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6578,7 +6578,7 @@
                             "id": 40797,
                             "word": "このあいだ",
                             "pronunciation": "このあいだ",
-                            "meaning": "the other day,recently",
+                            "meaning": "the other day, recently",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6586,7 +6586,7 @@
                             "id": 40798,
                             "word": "このごろ",
                             "pronunciation": "このごろ",
-                            "meaning": "these days,nowadays",
+                            "meaning": "these days, nowadays",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6679,7 +6679,7 @@
                             "id": 40809,
                             "word": "しっかり",
                             "pronunciation": "しっかり",
-                            "meaning": "firmly,steadily",
+                            "meaning": "firmly, steadily",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6695,7 +6695,7 @@
                             "id": 40811,
                             "word": "じゃま",
                             "pronunciation": "じゃま",
-                            "meaning": "hindrance,intrusion",
+                            "meaning": "hindrance, intrusion",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6759,7 +6759,7 @@
                             "id": 40819,
                             "word": "すっと",
                             "pronunciation": "すっと",
-                            "meaning": "straight,all of a sudden",
+                            "meaning": "straight, all of a sudden",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6868,7 +6868,7 @@
                             "id": 40832,
                             "word": "そろそろ",
                             "pronunciation": "そろそろ",
-                            "meaning": "gradually,soon",
+                            "meaning": "gradually, soon",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6884,7 +6884,7 @@
                             "id": 40834,
                             "word": "そんなに",
                             "pronunciation": "そんなに",
-                            "meaning": "so much,like that",
+                            "meaning": "so much, like that",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6900,7 +6900,7 @@
                             "id": 40836,
                             "word": "タイプ",
                             "pronunciation": "タイプ",
-                            "meaning": "type,style",
+                            "meaning": "type, style",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6908,7 +6908,7 @@
                             "id": 40837,
                             "word": "だから",
                             "pronunciation": "だから",
-                            "meaning": "so,therefore",
+                            "meaning": "so, therefore",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6977,7 +6977,7 @@
                             "id": 40845,
                             "word": "テキスト",
                             "pronunciation": "テキスト",
-                            "meaning": "text,text book",
+                            "meaning": "text, text book",
                             "radical": "",
                             "kanji": ""
                         },
@@ -7246,7 +7246,7 @@
                             "id": 40878,
                             "word": "または",
                             "pronunciation": "または",
-                            "meaning": "or,otherwise",
+                            "meaning": "or, otherwise",
                             "radical": "",
                             "kanji": ""
                         },
@@ -7307,7 +7307,7 @@
                             "id": 40885,
                             "word": "やはり/やっぱり",
                             "pronunciation": "やはり/やっぱり",
-                            "meaning": "as I thought,absolutely",
+                            "meaning": "as I thought, absolutely",
                             "radical": "",
                             "kanji": ""
                         },
@@ -7315,7 +7315,7 @@
                             "id": 40886,
                             "word": "よろしい",
                             "pronunciation": "よろしい",
-                            "meaning": "(respectful) OK,all right",
+                            "meaning": "(respectful) OK, all right",
                             "radical": "",
                             "kanji": ""
                         },

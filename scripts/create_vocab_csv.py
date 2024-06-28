@@ -53,6 +53,10 @@ def run():
 
     set_vocab_list = []
 
+    def add_comma_after_space(text):
+        temp_text = text.replace(', ', ',')
+        temp = temp_text.replace(',', ', ')
+        return temp
     radicals = Radical.objects.all().order_by('radical_number')
     for radical in radicals:
         # print(radical.radical_number)
@@ -61,6 +65,7 @@ def run():
             for vocab in vocabs:
                 unit = 'unit_'+str(unit_no)
                 set = 'set_'+str(set_no)
+                meaning = add_comma_after_space(vocab[3])
                 if unit in vocab_db:
                     if set in vocab_db[unit]['sets']:
                         if vocab[2] in set_vocab_list:
@@ -70,7 +75,8 @@ def run():
                             'id': word_count,
                             'word': vocab[2],
                             'pronunciation': vocab[1],
-                            'meaning': vocab[3],
+                            # 'meaning': vocab[3],
+                            'meaning': meaning,
                             'radical': radical.radical,
                             'kanji': vocab[0]
                         })
@@ -86,7 +92,8 @@ def run():
                             'id': word_count,
                             'word': vocab[2],
                             'pronunciation': vocab[1],
-                            'meaning': vocab[3],
+                            # 'meaning': vocab[3],
+                            'meaning': meaning,
                             'radical': radical.radical,
                             'kanji': vocab[0]
                         })
@@ -108,7 +115,8 @@ def run():
                         'id': word_count,
                         'word': vocab[2],
                         'pronunciation': vocab[1],
-                        'meaning': vocab[3],
+                        # 'meaning': vocab[3],
+                        'meaning': meaning,
                         'radical': radical.radical,
                         'kanji': vocab[0]
                     })
@@ -133,6 +141,7 @@ def run():
     for vocab in other_vocabs:
         unit = 'unit_'+str(unit_no)
         set = 'set_'+str(set_no)
+        meaning = add_comma_after_space(vocab[3])
         if unit in vocab_db:
             if set in vocab_db[unit]['sets']:
                 if vocab[2] in set_vocab_list:
@@ -143,7 +152,8 @@ def run():
                     'id': word_count,
                     'word': vocab[2],
                     'pronunciation': vocab[1],
-                    'meaning': vocab[3],
+                    # 'meaning': vocab[3],
+                    'meaning': meaning,
                     'radical': '',
                     'kanji': vocab[0]
                 })
@@ -158,7 +168,8 @@ def run():
                     'id': word_count,
                     'word': vocab[2],
                     'pronunciation': vocab[1],
-                    'meaning': vocab[3],
+                    # 'meaning': vocab[3],
+                    'meaning': meaning,
                     'radical': '',
                     'kanji': vocab[0]
                 })
@@ -180,7 +191,8 @@ def run():
                 'id': word_count,
                 'word': vocab[2],
                 'pronunciation': vocab[1],
-                'meaning': vocab[3],
+                # 'meaning': vocab[3],
+                'meaning': meaning,
                 'radical': '',
                 'kanji': vocab[0]
             })

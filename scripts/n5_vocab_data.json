@@ -106,7 +106,7 @@
                             "id": 50013,
                             "word": "七日",
                             "pronunciation": "なのか",
-                            "meaning": "seven days,the seventh day",
+                            "meaning": "seven days, the seventh day",
                             "radical": "一",
                             "kanji": "七"
                         },
@@ -154,7 +154,7 @@
                             "id": 50019,
                             "word": "丸い/円い",
                             "pronunciation": "まるい",
-                            "meaning": "round,circular",
+                            "meaning": "round, circular",
                             "radical": "丶",
                             "kanji": "丸"
                         },
@@ -162,7 +162,7 @@
                             "id": 50020,
                             "word": "乗る",
                             "pronunciation": "のる",
-                            "meaning": "to get on,to ride",
+                            "meaning": "to get on, to ride",
                             "radical": "丿",
                             "kanji": "乗"
                         }
@@ -247,7 +247,7 @@
                             "id": 50030,
                             "word": "二十歳",
                             "pronunciation": "はたち",
-                            "meaning": "20 years old,20th year",
+                            "meaning": "20 years old, 20th year",
                             "radical": "二",
                             "kanji": "二"
                         },
@@ -255,7 +255,7 @@
                             "id": 50031,
                             "word": "二十日",
                             "pronunciation": "はつか",
-                            "meaning": "twenty days,twentieth",
+                            "meaning": "twenty days, twentieth",
                             "radical": "二",
                             "kanji": "二"
                         },
@@ -513,7 +513,7 @@
                             "id": 50062,
                             "word": "低い",
                             "pronunciation": "ひくい",
-                            "meaning": "short,low",
+                            "meaning": "short, low",
                             "radical": "人",
                             "kanji": "低"
                         },
@@ -553,7 +553,7 @@
                             "id": 50067,
                             "word": "休み",
                             "pronunciation": "やすみ",
-                            "meaning": "rest,holiday",
+                            "meaning": "rest, holiday",
                             "radical": "人",
                             "kanji": "休"
                         },
@@ -694,7 +694,7 @@
                             "id": 50084,
                             "word": "入る",
                             "pronunciation": "はいる",
-                            "meaning": "to enter,to contain",
+                            "meaning": "to enter, to contain",
                             "radical": "入",
                             "kanji": "入"
                         },
@@ -822,7 +822,7 @@
                             "id": 50100,
                             "word": "出る",
                             "pronunciation": "でる",
-                            "meaning": "to appear,to leave",
+                            "meaning": "to appear, to leave",
                             "radical": "凵",
                             "kanji": "出"
                         }
@@ -1024,7 +1024,7 @@
                             "id": 50124,
                             "word": "十日",
                             "pronunciation": "とおか",
-                            "meaning": "ten days,the tenth day",
+                            "meaning": "ten days, the tenth day",
                             "radical": "十",
                             "kanji": "十"
                         },
@@ -1032,7 +1032,7 @@
                             "id": 50125,
                             "word": "二十歳",
                             "pronunciation": "はたち",
-                            "meaning": "20 years old,20th year",
+                            "meaning": "20 years old, 20th year",
                             "radical": "十",
                             "kanji": "十"
                         },
@@ -1040,7 +1040,7 @@
                             "id": 50126,
                             "word": "二十日",
                             "pronunciation": "はつか",
-                            "meaning": "twenty days,twentieth",
+                            "meaning": "twenty days, twentieth",
                             "radical": "十",
                             "kanji": "十"
                         },
@@ -1277,7 +1277,7 @@
                             "id": 50155,
                             "word": "呼ぶ",
                             "pronunciation": "よぶ",
-                            "meaning": "to call out,to invite",
+                            "meaning": "to call out, to invite",
                             "radical": "口",
                             "kanji": "呼"
                         },
@@ -1354,7 +1354,7 @@
                             "id": 50164,
                             "word": "丸い/円い",
                             "pronunciation": "まるい",
-                            "meaning": "round,circular",
+                            "meaning": "round, circular",
                             "radical": "囗",
                             "kanji": "円"
                         },
@@ -1474,7 +1474,7 @@
                             "id": 50179,
                             "word": "夜",
                             "pronunciation": "よる",
-                            "meaning": "evening,night",
+                            "meaning": "evening, night",
                             "radical": "夕",
                             "kanji": "夜"
                         },
@@ -1849,7 +1849,7 @@
                             "id": 50224,
                             "word": "寝る",
                             "pronunciation": "ねる",
-                            "meaning": "to go to bed,to sleep",
+                            "meaning": "to go to bed, to sleep",
                             "radical": "宀",
                             "kanji": "寝"
                         },
@@ -2102,7 +2102,7 @@
                             "id": 50255,
                             "word": "広い",
                             "pronunciation": "ひろい",
-                            "meaning": "spacious,wide",
+                            "meaning": "spacious, wide",
                             "radical": "广",
                             "kanji": "広"
                         },
@@ -2456,7 +2456,7 @@
                             "id": 50298,
                             "word": "文章",
                             "pronunciation": "ぶんしょう",
-                            "meaning": "sentence,text",
+                            "meaning": "sentence, text",
                             "radical": "文",
                             "kanji": "文"
                         },
@@ -2722,7 +2722,7 @@
                             "id": 50330,
                             "word": "十日",
                             "pronunciation": "とおか",
-                            "meaning": "ten days,the tenth day",
+                            "meaning": "ten days, the tenth day",
                             "radical": "日",
                             "kanji": "日"
                         },
@@ -2738,7 +2738,7 @@
                             "id": 50332,
                             "word": "時計",
                             "pronunciation": "とけい",
-                            "meaning": "watch,clock",
+                            "meaning": "watch, clock",
                             "radical": "日",
                             "kanji": "時"
                         },
@@ -2754,7 +2754,7 @@
                             "id": 50334,
                             "word": "七日",
                             "pronunciation": "なのか",
-                            "meaning": "seven days,the seventh day",
+                            "meaning": "seven days, the seventh day",
                             "radical": "日",
                             "kanji": "日"
                         },
@@ -2770,7 +2770,7 @@
                             "id": 50336,
                             "word": "二十日",
                             "pronunciation": "はつか",
-                            "meaning": "twenty days,twentieth",
+                            "meaning": "twenty days, twentieth",
                             "radical": "日",
                             "kanji": "日"
                         },
@@ -2980,7 +2980,7 @@
                             "id": 50361,
                             "word": "曲る",
                             "pronunciation": "まがる",
-                            "meaning": "to turn,to bend",
+                            "meaning": "to turn, to bend",
                             "radical": "曰",
                             "kanji": "曲"
                         },
@@ -3217,7 +3217,7 @@
                             "id": 50390,
                             "word": "横",
                             "pronunciation": "よこ",
-                            "meaning": "beside,side,width",
+                            "meaning": "beside, side, width",
                             "radical": "木",
                             "kanji": "横"
                         },
@@ -3289,7 +3289,7 @@
                             "id": 50399,
                             "word": "二十歳",
                             "pronunciation": "はたち",
-                            "meaning": "20 years old,20th year",
+                            "meaning": "20 years old, 20th year",
                             "radical": "止",
                             "kanji": "歳"
                         },
@@ -3398,7 +3398,7 @@
                             "id": 50412,
                             "word": "電気",
                             "pronunciation": "でんき",
-                            "meaning": "electricity,electric light",
+                            "meaning": "electricity, electric light",
                             "radical": "气",
                             "kanji": "気"
                         },
@@ -3869,7 +3869,7 @@
                             "id": 50469,
                             "word": "町",
                             "pronunciation": "まち",
-                            "meaning": "town,city",
+                            "meaning": "town, city",
                             "radical": "田",
                             "kanji": "町"
                         },
@@ -4050,7 +4050,7 @@
                             "id": 50491,
                             "word": "私",
                             "pronunciation": "わたくし",
-                            "meaning": "(humble) I,myself",
+                            "meaning": "(humble) I, myself",
                             "radical": "禾",
                             "kanji": "私"
                         },
@@ -4082,7 +4082,7 @@
                             "id": 50495,
                             "word": "並ぶ",
                             "pronunciation": "ならぶ",
-                            "meaning": "to line up,to stand in a line",
+                            "meaning": "to line up, to stand in a line",
                             "radical": "立",
                             "kanji": "並"
                         },
@@ -4090,7 +4090,7 @@
                             "id": 50496,
                             "word": "並べる",
                             "pronunciation": "ならべる",
-                            "meaning": "to line up,to set up",
+                            "meaning": "to line up, to set up",
                             "radical": "立",
                             "kanji": "並"
                         },
@@ -4098,7 +4098,7 @@
                             "id": 50497,
                             "word": "文章",
                             "pronunciation": "ぶんしょう",
-                            "meaning": "sentence,text",
+                            "meaning": "sentence, text",
                             "radical": "立",
                             "kanji": "章"
                         },
@@ -4486,7 +4486,7 @@
                             "id": 50543,
                             "word": "薄い",
                             "pronunciation": "うすい",
-                            "meaning": "thin,weak",
+                            "meaning": "thin, weak",
                             "radical": "艸",
                             "kanji": "薄"
                         },
@@ -4779,7 +4779,7 @@
                             "id": 50579,
                             "word": "時計",
                             "pronunciation": "とけい",
-                            "meaning": "watch,clock",
+                            "meaning": "watch, clock",
                             "radical": "言",
                             "kanji": "計"
                         },
@@ -4787,7 +4787,7 @@
                             "id": 50580,
                             "word": "話",
                             "pronunciation": "はなし",
-                            "meaning": "talk,story",
+                            "meaning": "talk, story",
                             "radical": "言",
                             "kanji": "話"
                         }
@@ -5359,7 +5359,7 @@
                             "id": 50649,
                             "word": "電気",
                             "pronunciation": "でんき",
-                            "meaning": "electricity,electric light",
+                            "meaning": "electricity, electric light",
                             "radical": "雨",
                             "kanji": "電"
                         },
@@ -5500,7 +5500,7 @@
                             "id": 50666,
                             "word": "飛ぶ",
                             "pronunciation": "とぶ",
-                            "meaning": "to fly,to hop",
+                            "meaning": "to fly, to hop",
                             "radical": "飛",
                             "kanji": "飛"
                         },
@@ -5798,7 +5798,7 @@
                             "id": 50702,
                             "word": "ある",
                             "pronunciation": "ある",
-                            "meaning": "to be,to have (used for inanimate objects)",
+                            "meaning": "to be, to have (used for inanimate objects)",
                             "radical": "",
                             "kanji": ""
                         },
@@ -5838,7 +5838,7 @@
                             "id": 50707,
                             "word": "いくつ",
                             "pronunciation": "いくつ",
-                            "meaning": "how many?,how old?",
+                            "meaning": "how many?, how old?",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6405,7 +6405,7 @@
                             "id": 50776,
                             "word": "たて",
                             "pronunciation": "たて",
-                            "meaning": "length,height",
+                            "meaning": "length, height",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6413,7 +6413,7 @@
                             "id": 50777,
                             "word": "たばこ",
                             "pronunciation": "たばこ",
-                            "meaning": "tobacco,cigarettes",
+                            "meaning": "tobacco, cigarettes",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6570,7 +6570,7 @@
                             "id": 50796,
                             "word": "どう",
                             "pronunciation": "どう",
-                            "meaning": "how,in what way",
+                            "meaning": "how, in what way",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6703,7 +6703,7 @@
                             "id": 50812,
                             "word": "ネクタイ",
                             "pronunciation": "ネクタイ",
-                            "meaning": "tie,necktie",
+                            "meaning": "tie, necktie",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6711,7 +6711,7 @@
                             "id": 50813,
                             "word": "ノート",
                             "pronunciation": "ノート",
-                            "meaning": "notebook,exercise book",
+                            "meaning": "notebook, exercise book",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6735,7 +6735,7 @@
                             "id": 50816,
                             "word": "はく",
                             "pronunciation": "はく",
-                            "meaning": "to wear,to put on trousers",
+                            "meaning": "to wear, to put on trousers",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6916,7 +6916,7 @@
                             "id": 50838,
                             "word": "また",
                             "pronunciation": "また",
-                            "meaning": "again,and",
+                            "meaning": "again, and",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6924,7 +6924,7 @@
                             "id": 50839,
                             "word": "まだ",
                             "pronunciation": "まだ",
-                            "meaning": "yet,still",
+                            "meaning": "yet, still",
                             "radical": "",
                             "kanji": ""
                         },
@@ -6932,7 +6932,7 @@
                             "id": 50840,
                             "word": "まっすぐ",
                             "pronunciation": "まっすぐ",
-                            "meaning": "straight ahead,direct",
+                            "meaning": "straight ahead, direct",
                             "radical": "",
                             "kanji": ""
                         }
