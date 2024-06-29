@@ -20,10 +20,9 @@ class Kanji (models.Model):
     meaning = models.CharField(max_length=200)
     examples = models.CharField(max_length=7000)
     jlpt_level = models.CharField(max_length=2)
-    no_of_strokes = models.CharField(max_length=5)
+    no_of_strokes = models.IntegerField(max_length=5)
     radical = models.ForeignKey(Radical, on_delete=models.CASCADE, null=True, blank=True)
     parts = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return f'{self.kanji}'
-

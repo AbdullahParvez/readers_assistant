@@ -16,7 +16,32 @@ from ..models import Kanji, Radical
 class KanjiListView(ListView):
     model = Kanji
     context_object_name = "kanji_list"
-    queryset = Kanji.objects.all().prefetch_related('radical')
+    queryset = Kanji.objects.all().prefetch_related('radical').order_by('no_of_strokes')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['word']=self.request.GET.get('word', '')
+        context["radicals"] = Radical.objects.all().order_by('number_of_stroke')
+        return context
+
+
+def kanji_list_by_jlpt(request, level):
+    kanji_list = Kanji.objects.filter(jlpt_level=level).order_by('no_of_strokes')
+    radicals = Radical.objects.all().order_by('number_of_stroke')
+    context = {
+        'kanji_list':kanji_list,
+        'radicals':radicals
+    }
+    return render(request, 'kanji/kanji_list.html', context)
+
+def kanji_list_by_radical(request, radical_id):
+    kanji_list = Kanji.objects.filter(radical__id=radical_id).order_by('no_of_strokes')
+    radicals = Radical.objects.all().order_by('number_of_stroke')
+    context = {
+        'kanji_list':kanji_list,
+        'radicals':radicals
+    }
+    return render(request, 'kanji/kanji_list.html', context)
 
 
 class KanjiDetailView(DetailView):
@@ -36,10 +61,6 @@ class KanjiUpdateView(UpdateView):
     success_url ="/kanji/list/"
 
 
-def search_word(request):
-    return render(request, "kanji/search_word.html")
-
-
 def search_kanji(request):
     if request.method == "POST":
         data = json.load(request)
@@ -49,12 +70,6 @@ def search_kanji(request):
         return JsonResponse({"success": success, 'context': context},status=200)
     return JsonResponse({"success": False}, status=400)
 
-
-# def search_kanji_by_kanji(request, kanji):
-#     if request.method == "POST":
-#         context, success = get_kanji_info(kanji)
-#         return JsonResponse({"success": success, 'context': context},status=200)
-#     return JsonResponse({"success": False}, status=400)
 
 def get_kanji_info(kanji):
     try:

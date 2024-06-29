@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <title>Kanji List</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+              rel="stylesheet"
+              integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+              crossorigin="anonymous">
+        <style>
         body {
             height: 100%;
             width: 100%;
@@ -21,154 +23,152 @@
             float: left;
             font-size: 40px;
         }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    
-    <!-- <div class="row"> -->
-        <div class="col-md-12"  id="data">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search by Kanji" aria-label="Search by Kanji"
-                               id="search" required>
-                        <button class="btn btn-outline-secondary" type="button" id="button-search" onclick="search_kanji()">Search
-                        </button>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="input-group sm-3">
-                        <label class="input-group-text" for="inputGroupSelect01">JLPT Label</label>
-                        <select class="form-select" name="jlpt" id="inputGroupSelect01">
-                            <option selected>Choose...</option>
-                            <option value="1">N1</option>
-                            <option value="2">N2</option>
-                            <option value="3">N3</option>
-                            <option value="4">N4</option>
-                            <option value="5">N5</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="input-group sm-3">
-                        <label class="input-group-text" for="inputGroupSelect01">Radical</label>
-                        <select class="form-select" name="radical" id="inputGroupSelect01">
-                            <option selected>Choose...</option>
-                            <option value="1">N1</option>
-                            <option value="2">N2</option>
-                            <option value="3">N3</option>
-                            <option value="4">N4</option>
-                            <option value="5">N5</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div id="kanji_list">
-                <h1 class="text-center">Kanji List</h1>
-                <table class="table table-bordered table-inverse m-4">
-                    <thead>
-                        <th>Kanji</th>
-                        <th>Radical</th>
-                        <th>Meaning</th>
-                        <th>Parts</th>
-                    </thead>
-                    <tbody>
-                        {% for kanji in kanji_list %}
-                        <tr>
-                            <td><a href="{% url 'kanji:kanji_detail' pk=kanji.pk %}">{{ kanji.kanji }}</a></td>
-                            <td>{{ kanji.radical.radical }}</td>
-                            <td>{{ kanji.meaning }}</td>
-                            <td>{{ kanji.parts }}</td>
-                        </tr>
-                        {% endfor %}    
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="row m-3" id="words"></div>
-            <div class="row" style="min-height: 150px; position: relative;">
-                
-                        <div class="col-md-6">
-                            <h1 id="kanji"></h1>
-                            <h6 id="k_onyomi"></h6>
-                            <h6 id="k_kunyomi"></h6>
-                            <h6 id="k_meaning"></h6>
-                            <h6 id="k_jlpt"></h6>
-                        </div>
-                        <div class="col-md-6">
-                            <h3 id="radical"></h3>
-                            <h6 id="r_meaning"></h6>
-                            <h6 id="r_readings"></h6>
-                            <h6 id="r_alternative"></h6>
-                        </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-5">
-                    <p id="k_examples"></p>
-                </div>
-                <div class="col-md-5">
-                    <div class="row">
-                        <div class="col">
-                            <!-- <h6>Parts</h6> -->
-                            <div id="parts" class="parts">
-                            </div>
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="col-md-12"  id="data">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group mb-3">
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Search by Kanji"
+                                   aria-label="Search by Kanji"
+                                   id="search"
+                                   required>
+                            <button class="btn btn-outline-secondary"
+                                    type="button"
+                                    id="button-search"
+                                    onclick="search_kanji()">Search</button>
                         </div>
                     </div>
-        
-                    <div class="row">
-                        <div class="col">
-                            <div id="kanji_by_radical" class="kanji_by_radical">
+                    <div class="col-md-3">
+                        <div class="input-group sm-3">
+                            <label class="input-group-text" for="inputGroupSelect01">JLPT Label</label>
+                            <select class="form-select" name="jlpt" id="inputGroupSelect01" onchange="window.location = this.options[this.selectedIndex].value;">
+                                <option selected>Choose...</option>
+                                <option value="{% url 'kanji:kanji_by_jlpt' level='5' %}">N5</option>
+                                <option value="{% url 'kanji:kanji_by_jlpt' level='4' %}">N4</option>
+                                <option value="{% url 'kanji:kanji_by_jlpt' level='3' %}">N3</option>
+                                <option value="{% url 'kanji:kanji_by_jlpt' level='2' %}">N2</option>
+                                <option value="{% url 'kanji:kanji_by_jlpt' level='1' %}">N1</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group sm-3">
+                            <label class="input-group-text" for="inputGroupSelect01">Radical</label>
+                            <select class="form-select" name="radical" id="inputGroupSelect01" onchange="window.location = this.options[this.selectedIndex].value;">
+                                <option selected>Choose...</option>
                                 
-                            </div>
-                        </div>
-                    </div>
-                   
-                    <div class="row">
-                        <div class="col">
-                            <div id="similar_sounded_kanji" class="similar_sounded_kanji mt-3">
-                               
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div id="has_part" class="similar_sounded_kanji mt-3">
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div id="used_as_radical" class="similar_sounded_kanji mt-3">
-                              
-                            </div>
+                                {% for radical in radicals %}
+                                <option value="{% url 'kanji:kanji_by_radical' radical_id=radical.id %}">{{ radical.radical }}</option>
+                                {% endfor %}
+                                    
+                                <option value="1">N1</option>
+                            </select>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div class="row align-content-end justify-content-end" style="position: sticky; top: 0; height: fit-content; color: rgb(18, 19, 20); background-color: rgb(125, 238, 232); opacity: 1; z-index: 1;">
-                        <div class="col" >
-                            <h3 id="p_heading"></h3>
-                            <p id="p_onyomi"></p>
-                            <p id="p_kunyomi"></p>
-                            <p id="p_meaning"></p>
-                            <p id="p_jlpt"></p>
-                            <p id="p_radical"></p>
-                            <p id="p_radical_meaning"></p>
-                            <p id="p_radical_readings"></p>
+                <div id="kanji_list">
+                    <h1 class="text-center">Kanji List</h1>
+                    <table class="table table-bordered table-inverse m-4">
+                        <thead>
+                            <th>Kanji</th>
+                            <th>Radical</th>
+                            <th>Meaning</th>
+                            <th>Parts</th>
+                        </thead>
+                        <tbody>
+                            {% for kanji in kanji_list %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'kanji:kanji_detail' pk=kanji.pk %}">{{ kanji.kanji }}</a>
+                                    </td>
+                                    <td>{{ kanji.radical.radical }}</td>
+                                    <td>{{ kanji.meaning }}</td>
+                                    <td>{{ kanji.parts }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row m-3" id="words"></div>
+                <div class="row" style="min-height: 150px; position: relative;">
+                    <div class="col-md-6">
+                        <h1 id="kanji"></h1>
+                        <h6 id="k_onyomi"></h6>
+                        <h6 id="k_kunyomi"></h6>
+                        <h6 id="k_meaning"></h6>
+                        <h6 id="k_jlpt"></h6>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 id="radical"></h3>
+                        <h6 id="r_meaning"></h6>
+                        <h6 id="r_readings"></h6>
+                        <h6 id="r_alternative"></h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <p id="k_examples"></p>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col">
+                                <!-- <h6>Parts</h6> -->
+                                <div id="parts" class="parts"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div id="kanji_by_radical" class="kanji_by_radical"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div id="similar_sounded_kanji" class="similar_sounded_kanji mt-3"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div id="has_part" class="similar_sounded_kanji mt-3"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div id="used_as_radical" class="similar_sounded_kanji mt-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="row align-content-end justify-content-end"
+                             style="position: sticky;
+                                    top: 0;
+                                    height: fit-content;
+                                    color: rgb(18, 19, 20);
+                                    background-color: rgb(125, 238, 232);
+                                    opacity: 1;
+                                    z-index: 1">
+                            <div class="col">
+                                <h3 id="p_heading"></h3>
+                                <p id="p_onyomi"></p>
+                                <p id="p_kunyomi"></p>
+                                <p id="p_meaning"></p>
+                                <p id="p_jlpt"></p>
+                                <p id="p_radical"></p>
+                                <p id="p_radical_meaning"></p>
+                                <p id="p_radical_readings"></p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
         </div>
-    </div>
-    
-
-<script>
+        
+{{ word|json_script:"word" }}
+        <script>
 
     const data_cont = document.getElementById('data').innerHTML;
     function getCookie(name) {
@@ -362,7 +362,11 @@
         document.getElementById('p_radical_readings').innerText = "Radical readings:  "+data['r_readings'];
     }
 
-</script>
+    window.onload = (event) => {
+        let word=JSON.parse(document.getElementById('word').textContent);
+        if (word) search(word);
+    };
 
-</body>
+        </script>
+    </body>
 </html>

@@ -4,7 +4,6 @@
 
 {% block title %} {{ object.book.title }} {% endblock title %}
 
-
 {% block page_specific_css %}
 <style>
     .solid {
@@ -48,6 +47,8 @@
         position: relative;
         display: inline-block;
         margin-bottom: 3px;
+        width: -webkit-fill-available;
+
     }
 
     .kanji_div,  h3{
@@ -137,7 +138,13 @@
             <div class="col exp_column">
                 <h3>Meaning</h3>
                 <div id="kanji_div" class="kanji_div">
-                    <div id="kanji_list"></div>
+                    <div class="row">
+                        <div class="col-sm-6" id="kanji_list"></div>
+                        <div class="col-sm-6">
+                            <a href="" id="details_btn"  style="display: none;"><button id="details_btn" class="btn btn-success">Details</button></a>
+                        </div>
+                    </div>
+                    
                     <div class="tooltiptext" id="tooltip">
                         <h3 id="t_heading"></h3>
                         <p id="t_onyomi"></p>

@@ -106,7 +106,8 @@ var document_handler = function () {
                     }
                     // meaning_div.appendChild(kanji_div);
 
-
+                    document.getElementById('details_btn').style.display = 'block';
+                    document.getElementById('details_btn').href = '/kanji/list/?word='+kanjis.join('');
                     if (meanings.length > 0){
                         for (let i=0; i<meanings.length; i++){
                             let icon_class;
