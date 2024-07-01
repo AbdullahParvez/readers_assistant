@@ -75,13 +75,14 @@ def get_kanji_info(kanji):
     try:
         k = Kanji.objects.get(kanji=kanji[0])
         kanji_list = []
-        if k.radical and k.radical.radical != k.kanji:
-            same_radical = Kanji.objects.filter(radical=k.radical).defer(
-                'kanji').order_by('jlpt_level')
-
-            for r in same_radical:
-                kanji_list.append(r.kanji)
+        # if k.radical and k.radical.radical != k.kanji:
+        same_radical = Kanji.objects.filter(radical=k.radical).defer(
+            'kanji').order_by('jlpt_level')
+        print(same_radical)
+        for r in same_radical:
+            kanji_list.append(r.kanji)
         similar_kanji = Kanji.objects.filter(parts__contains=k.kanji)
+        print(similar_kanji)
         parts = [p for p in k.parts.split(',') if p != k.kanji]
         has_part = []
         similar_sounded_kanji = []
@@ -105,6 +106,10 @@ def get_kanji_info(kanji):
                         if s.kanji not in similar_sounded_kanji:
                             similar_sounded_kanji.append(s.kanji)
                         continue
+        print(similar_sounded_kanji)
+        print(has_part)
+        print(used_as_radical)
+        print(kanji_list)
         context = {
             'word':kanji,
             'kanji': k.kanji,

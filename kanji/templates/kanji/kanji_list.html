@@ -122,23 +122,23 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">
-                                <div id="kanji_by_radical" class="kanji_by_radical"></div>
+                            <div class="row">
+                                <div class="col">
+                                    <div id="similar_sounded_kanji" class="mt-3"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div id="similar_sounded_kanji" class="similar_sounded_kanji mt-3"></div>
+                            <div class="row">
+                                <div class="col">
+                                    <div id="has_part" class="mt-3"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div id="has_part" class="similar_sounded_kanji mt-3"></div>
+                            <div class="row">
+                                <div class="col">
+                                    <div id="used_as_radical" class="mt-3"></div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col">
-                                <div id="used_as_radical" class="similar_sounded_kanji mt-3"></div>
+                                <div id="kanji_by_radical" class="mt-3"></div>
                             </div>
                         </div>
                     </div>
@@ -202,7 +202,7 @@
     
     function search(kanji) {
         let payload = {kanji: kanji};
-        // console.log(payload);
+        console.log(payload);
         let url = "{% url 'kanji:kanji_search' %}";
         fetch(url, {
             method: "POST",
@@ -219,6 +219,7 @@
                 document.getElementById('data').innerHTML=data_cont;
                 document.getElementById('kanji_list').style.display = 'none';
                 kanji_data(data['context']);
+                console.log(kanji_data(data['context']));
             }else{
                 document.getElementById('data').innerHTML='';
             }
@@ -264,6 +265,7 @@
 
 
         let parts = document.getElementById('parts');
+        parts.innerHTML = ''
         let parts_list = data['k_parts'];
         if (parts_list.length >0){
             let heading = document.createElement('h5');
@@ -275,23 +277,12 @@
             }
         }
 
-        let used_as_radical = document.getElementById('used_as_radical');
-        let used_as_radical_list = data['used_as_radical'];
-        if (used_as_radical_list.length >0){
-            let heading = document.createElement('h5');
-            heading.innerText = 'Used as Radical';
-            used_as_radical_list.appendChild(heading);
-            for (let i = 0; i < used_as_radical_list.length; i++) {
-                let new_div = create_new_div(used_as_radical_list[i]);
-                used_as_radical.appendChild(new_div);
-            }
-        }
-
         let similar_sounded_kanji = document.getElementById('similar_sounded_kanji');
+        similar_sounded_kanji.innerHTML = ''
         let similar_kanji_list = data['similar_sounded_kanji'];
         if (similar_kanji_list.length >0){
             let heading = document.createElement('h5');
-            heading.innerText = 'Similar Sounded Kanji';
+            heading.innerText = 'Similar Onyomi';
             similar_sounded_kanji.appendChild(heading);
             for (let i = 0; i < similar_kanji_list.length; i++) {
                 let new_div = create_new_div(similar_kanji_list[i]);
@@ -300,6 +291,7 @@
         }
 
         let has_part = document.getElementById('has_part');
+        has_part.innerHTML = ''
         let has_part_list = data['has_part'];
         if (has_part_list.length >0){
             let heading = document.createElement('h5');
@@ -312,6 +304,7 @@
         }
 
         let kanji_by_radical = document.getElementById('kanji_by_radical');
+        kanji_by_radical.innerHTML = ''
         let kanji_list = data['kanji_by_radical'];
         if (kanji_list.length >0){
             let heading = document.createElement('h5');
@@ -320,6 +313,19 @@
             for (let i = 0; i < kanji_list.length; i++) {
                 let new_div = create_new_div(kanji_list[i]);
                 kanji_by_radical.appendChild(new_div);
+            }
+        }
+
+        let used_as_radical = document.getElementById('used_as_radical');
+        used_as_radical.innerHTML = ''
+        let used_as_radical_list = data['used_as_radical'];
+        if (used_as_radical_list.length >0){
+            let heading = document.createElement('h5');
+            heading.innerText = 'Used as Radical';
+            used_as_radical.appendChild(heading);
+            for (let i = 0; i < used_as_radical_list.length; i++) {
+                let new_div = create_new_div(used_as_radical_list[i]);
+                used_as_radical.appendChild(new_div);
             }
         }
         
@@ -364,6 +370,7 @@
 
     window.onload = (event) => {
         let word=JSON.parse(document.getElementById('word').textContent);
+        console.log(word);
         if (word) search(word);
     };
 
