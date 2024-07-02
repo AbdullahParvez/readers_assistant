@@ -61,6 +61,13 @@ class KanjiUpdateView(UpdateView):
     success_url ="/kanji/list/"
 
 
+def kanji_search_view(request):
+    word=request.GET.get('word', '')
+    context = {
+        'word':word,
+    }
+    return render(request, 'kanji/kanji_search.html', context)
+
 def search_kanji(request):
     if request.method == "POST":
         data = json.load(request)
@@ -71,27 +78,26 @@ def search_kanji(request):
     return JsonResponse({"success": False}, status=400)
 
 
-def get_kanji_info(kanji):
+def get_kanji_info(word):
     try:
-        k = Kanji.objects.get(kanji=kanji[0])
-        kanji_list = []
-        # if k.radical and k.radical.radical != k.kanji:
-        same_radical = Kanji.objects.filter(radical=k.radical).defer(
-            'kanji').order_by('jlpt_level')
-        print(same_radical)
-        for r in same_radical:
-            kanji_list.append(r.kanji)
+        k = Kanji.objects.get(kanji=word[0])
+
+        share_same_radical = []
+        if k.kanji != k.radical.radical:
+            same_radical = Kanji.objects.filter(radical=k.radical).defer(
+                'kanji').order_by('jlpt_level')
+            # print(same_radical)
+            for r in same_radical:
+                share_same_radical.append(r.kanji)
+
         similar_kanji = Kanji.objects.filter(parts__contains=k.kanji)
-        print(similar_kanji)
+        # print(similar_kanji)
         parts = [p for p in k.parts.split(',') if p != k.kanji]
         has_part = []
-        similar_sounded_kanji = []
+        share_same_onyomi = []
         used_as_radical = []
 
         onyomi_list = k.onyomi.split('、')
-        # for s in similar_kanji:
-        #     if s.kanji != k.kanji:
-        #         similar_sounded_kanji.append(s.kanji)
         for s in similar_kanji:
             if s.kanji != k.kanji:
                 if s.radical:
@@ -103,15 +109,11 @@ def get_kanji_info(kanji):
                     has_part.append(s.kanji)
                 for onyomi in onyomi_list:
                     if onyomi in s.onyomi:
-                        if s.kanji not in similar_sounded_kanji:
-                            similar_sounded_kanji.append(s.kanji)
+                        if s.kanji not in share_same_onyomi:
+                            share_same_onyomi.append(s.kanji)
                         continue
-        print(similar_sounded_kanji)
-        print(has_part)
-        print(used_as_radical)
-        print(kanji_list)
         context = {
-            'word':kanji,
+            'word':word,
             'kanji': k.kanji,
             'k_onyomi': k.onyomi,
             'k_kunyomi':k.kunyomi,
@@ -123,8 +125,8 @@ def get_kanji_info(kanji):
             'r_meaning': k.radical.meaning if k.radical else '',
             'r_readings': k.radical.readings if k.radical else '',
             'r_alternatives': k.radical.alternative if k.radical else '',
-            'kanji_by_radical': kanji_list,
-            'similar_sounded_kanji':similar_sounded_kanji,
+            'share_same_radical': share_same_radical,
+            'share_same_onyomi':share_same_onyomi,
             'has_part':has_part,
             'used_as_radical':used_as_radical,
         }

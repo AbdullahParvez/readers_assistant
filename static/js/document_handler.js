@@ -1,19 +1,8 @@
 var document_handler = function () {
-    // let meaning_list=JSON.parse(document.getElementById('meaning_list').textContent);
     let document_id=JSON.parse(document.getElementById('document_id').textContent);
     let favourite_word_list = JSON.parse(document.getElementById('favourite_word_list').textContent);
     let note_list = JSON.parse(document.getElementById('note_list').textContent);
     let marked_word_list = [];
-
-    // console.log(meaning_list)
-    // console.log(favourite_word_list)
-    // function removeItemOnce(arr, value) {
-    //     let index = arr.indexOf(value);
-    //     if (index > -1) {
-    //         arr.splice(index, 1);
-    //     }
-    //     return arr;
-    // }
 
     function replace_word(word, color){
         let content_div = document.getElementById('content')
@@ -107,7 +96,7 @@ var document_handler = function () {
                     // meaning_div.appendChild(kanji_div);
 
                     document.getElementById('details_btn').style.display = 'block';
-                    document.getElementById('details_btn').href = '/kanji/list/?word='+kanjis.join('');
+                    document.getElementById('details_btn').href = '/kanji/view/search/?word='+kanjis.join('');
                     if (meanings.length > 0){
                         for (let i=0; i<meanings.length; i++){
                             let icon_class;

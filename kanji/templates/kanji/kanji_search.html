@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Kanji List</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+              rel="stylesheet"
+              integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+              crossorigin="anonymous">
+        <style>
+        body {
+            height: 100%;
+            width: 100%;
+            background-color: mintcream;
+            font-size: 20px;
+        }
+        .container {
+            max-width: 90%;
+        }
+        .square {
+            width: 50px;
+            height: 50px;
+            float: left;
+            font-size: 40px;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="col-md-12"  id="data">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group mb-3">
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Search by Kanji"
+                                   aria-label="Search by Kanji"
+                                   id="search"
+                                   required>
+                            <button class="btn btn-outline-secondary"
+                                    type="button"
+                                    id="button-search"
+                                    onclick="search_kanji()">Search</button>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group sm-3">
+                            <label class="input-group-text" for="inputGroupSelect01">JLPT Label</label>
+                            <select class="form-select"
+                                    name="jlpt"
+                                    id="inputGroupSelect01"
+                                    onchange="window.location = this.options[this.selectedIndex].value;">
+                                <option selected>Choose...</option>
+                                <option value="{% url 'kanji:kanji_by_jlpt' level='5' %}">N5</option>
+                                <option value="{% url 'kanji:kanji_by_jlpt' level='4' %}">N4</option>
+                                <option value="{% url 'kanji:kanji_by_jlpt' level='3' %}">N3</option>
+                                <option value="{% url 'kanji:kanji_by_jlpt' level='2' %}">N2</option>
+                                <option value="{% url 'kanji:kanji_by_jlpt' level='1' %}">N1</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group sm-3">
+                            <label class="input-group-text" for="inputGroupSelect01">Radical</label>
+                            <select class="form-select"
+                                    name="radical"
+                                    id="inputGroupSelect01"
+                                    onchange="window.location = this.options[this.selectedIndex].value;">
+                                <option selected>Choose...</option>
+                                {% for radical in radicals %}
+                                    <option value="{% url 'kanji:kanji_by_radical' radical_id=radical.id %}">{{ radical.radical }}</option>
+                                {% endfor %}
+                                <option value="1">N1</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-3" id="words"></div>
+                <div class="row" style="min-height: 150px; position: relative;">
+                    <div class="col-md-6">
+                        <h1 id="kanji"></h1>
+                        <h6 id="k_onyomi"></h6>
+                        <h6 id="k_kunyomi"></h6>
+                        <h6 id="k_meaning"></h6>
+                        <h6 id="k_jlpt"></h6>
+                    </div>
+                    <div class="col-md-6">
+                        <h3 id="radical"></h3>
+                        <h6 id="r_meaning"></h6>
+                        <h6 id="r_readings"></h6>
+                        <h6 id="r_alternative"></h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <p id="k_examples"></p>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col">
+                                <!-- <h6>Parts</h6> -->
+                                <div id="parts" class="parts"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col">
+                                    <div id="used_as_radical" class="mt-3"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div id="has_part" class="mt-3"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div id="share_same_onyomi" class="mt-3"></div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div id="share_same_radical" class="mt-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="row align-content-end justify-content-end"
+                             style="position: sticky;
+                                    top: 0;
+                                    height: fit-content;
+                                    color: rgb(18, 19, 20);
+                                    background-color: rgb(125, 238, 232);
+                                    opacity: 1;
+                                    z-index: 1">
+                            <div class="col">
+                                <h3 id="p_heading"></h3>
+                                <p id="p_onyomi"></p>
+                                <p id="p_kunyomi"></p>
+                                <p id="p_meaning"></p>
+                                <p id="p_jlpt"></p>
+                                <p id="p_radical"></p>
+                                <p id="p_radical_meaning"></p>
+                                <p id="p_radical_readings"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ word|json_script:"word" }}
+        <script>
+    const data_cont = document.getElementById('data').innerHTML;
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+    function search_kanji(){
+        let k = document.getElementById('search');
+        let kanji = k.value;
+        if (!kanji) {
+            k.placeholder = "Please Enter a Kanji"
+        } else {
+            search(kanji);
+        }
+    }
+    
+    function search(kanji) {
+        let payload = {kanji: kanji};
+        let url = "{% url 'kanji:kanji_search' %}";
+        fetch(url, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": getCookie("csrftoken"),
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success){
+                document.getElementById('data').innerHTML=data_cont;
+                kanji_data(data['context']);
+            }else{
+                document.getElementById('data').innerHTML='';
+            }
+        });
+        
+    }
+
+    function create_new_div(value) {
+        let newDiv = document.createElement("div");
+        newDiv.className = "square";
+        newDiv.innerHTML = value;
+        newDiv.onclick = function () {
+            showTooltip(this);
+        };
+        return newDiv;
+    }
+
+    function kanji_data(data) {
+        let words = document.getElementById('words');
+        words.innerHTML='';
+        for (let i=0; i<data['word'].length; i++){
+            let div =document.createElement('div');
+            div.className = "square";
+            let url = document.createElement('a');
+            url.onclick = function(){
+                search(data['word'][i]);
+            };
+            url.innerText = data['word'][i];
+            div.appendChild(url);
+            words.appendChild(div);
+        }
+        document.getElementById('kanji').innerText = "Kanji: "+data['kanji'];
+        document.getElementById('k_onyomi').innerText = "Onyomi: "+data['k_onyomi'];
+        document.getElementById('k_kunyomi').innerText = "Kunyomi: "+data['k_kunyomi'];
+        document.getElementById('k_meaning').innerText = "Meaning: "+data['k_meaning'];
+        document.getElementById('k_examples').innerHTML = "<h4>Examples</h4>"+data['k_examples'];
+        document.getElementById('k_jlpt').innerText = "JLPT LEVEL: "+data['k_jlpt'].toString();
+        document.getElementById('radical').innerText = "Radical: "+data['radical'];
+        document.getElementById('r_meaning').innerText = "Meaning: "+data['r_meaning'];
+        document.getElementById('r_readings').innerText = "Readings: "+data['r_readings'];
+        document.getElementById('r_alternative').innerText = "Alternatives: "+data['r_alternatives'];
+
+        let parts = document.getElementById('parts');
+        parts.innerHTML = ''
+        let parts_list = data['k_parts'];
+        if (parts_list.length >0){
+            let heading = document.createElement('h5');
+            heading.innerText = 'Parts';
+            parts.appendChild(heading);
+            for (let i = 0; i < parts_list.length; i++) {
+                let new_div = create_new_div(parts_list[i]);
+                parts.appendChild(new_div);
+            }
+        }
+
+        let used_as_radical = document.getElementById('used_as_radical');
+        used_as_radical.innerHTML = ''
+        let used_as_radical_list = data['used_as_radical'];
+        if (used_as_radical_list.length >0){
+            let heading = document.createElement('h5');
+            heading.innerText = 'Used as Radical';
+            used_as_radical.appendChild(heading);
+            for (let i = 0; i < used_as_radical_list.length; i++) {
+                let new_div = create_new_div(used_as_radical_list[i]);
+                used_as_radical.appendChild(new_div);
+            }
+        }
+
+        let has_part = document.getElementById('has_part');
+        has_part.innerHTML = ''
+        let has_part_list = data['has_part'];
+        if (has_part_list.length >0){
+            let heading = document.createElement('h5');
+            heading.innerText = 'Used as a Part in Other Kanji';
+            has_part.appendChild(heading);
+            for (let i = 0; i < has_part_list.length; i++) {
+                let new_div = create_new_div(has_part_list[i]);
+                has_part.appendChild(new_div);
+            }
+        }
+
+        let share_same_onyomi = document.getElementById('share_same_onyomi');
+        share_same_onyomi.innerHTML = ''
+        let similar_kanji_list = data['share_same_onyomi'];
+        if (similar_kanji_list.length >0){
+            let heading = document.createElement('h5');
+            heading.innerText = 'Similar Onyomi';
+            share_same_onyomi.appendChild(heading);
+            for (let i = 0; i < similar_kanji_list.length; i++) {
+                let new_div = create_new_div(similar_kanji_list[i]);
+                share_same_onyomi.appendChild(new_div);
+            }
+        }
+
+        let kanji_by_radical = document.getElementById('share_same_radical');
+        kanji_by_radical.innerHTML = ''
+        let kanji_list = data['share_same_radical'];
+        if (kanji_list.length >0){
+            let heading = document.createElement('h5');
+            heading.innerText = 'Share Same Radical';
+            kanji_by_radical.appendChild(heading);
+            for (let i = 0; i < kanji_list.length; i++) {
+                let new_div = create_new_div(kanji_list[i]);
+                kanji_by_radical.appendChild(new_div);
+            }
+        } 
+    }
+
+    function showTooltip(input) {
+        let kanji = input.innerText;
+        let payload = {kanji: kanji};
+        const url = "{% url 'kanji:kanji_hover' %}";
+        fetch(url, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest",
+                "X-CSRFToken": getCookie("csrftoken"),
+            },
+            body: JSON.stringify(payload)
+        })
+            .then(response => response.json())
+            .then(data => {
+                set_data(data['context']);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // message = "問題が起こりました。もう一度お願いします。";
+                return;
+            });
+    }
+
+    function set_data(data) {
+        document.getElementById('p_heading').innerText = "Kanji: "+data['kanji'];
+        document.getElementById('p_onyomi').innerText = "Onyomi: "+data['k_onyomi'];
+        document.getElementById('p_kunyomi').innerText = "Kunyomi: "+data['k_kunyomi'];
+        document.getElementById('p_meaning').innerText = "Meaning:  "+data['k_meaning'];
+        document.getElementById('p_jlpt').innerText = "JLPT LEVEL: "+data['k_jlpt'].toString();
+        document.getElementById('p_radical').innerText = "Radical:  "+data['r_radical'];
+        document.getElementById('p_radical_meaning').innerText = "Radical Meaning:  "+data['r_meaning'];
+        document.getElementById('p_radical_readings').innerText = "Radical readings:  "+data['r_readings'];
+    }
+
+    window.onload = (event) => {
+        let word=JSON.parse(document.getElementById('word').textContent);
+        if (word) {
+            search(word);
+        }
+    };
+
+        </script>
+    </body>
+</html>
