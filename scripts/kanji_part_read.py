@@ -2,8 +2,6 @@ from kanji.models import Kanji
 
 import json
 # Dictionary_Entry.drop_collection()
-from kanji.models import Kanji
-
 
 
 def run():
