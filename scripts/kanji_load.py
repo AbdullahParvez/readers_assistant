@@ -19,14 +19,14 @@ def run():
     for row in reader_rad:
         rad = row[0]
         rad_no = row[1]
-        nos = row[2]
+        nos = float(row[2]) if row[2] else 0
         alt = row[3]
         m = row[4]
         read = row[5]
         # print(rad, rad_no, nos, alt, m, read)
 
-        r = Radical(radical=rad, radical_number=rad_no, number_of_stroke=nos, alternative=alt, meaning=m, readings=read)
-        r.save()
+        r = Radical.objects.get_or_create(radical=rad, radical_number=rad_no, number_of_stroke=nos, alternative=alt, meaning=m, readings=read)
+        # r.save()
 
     for row in reader_kan:
         # print(row)
@@ -37,7 +37,7 @@ def run():
         m = row[4]
         ex = row[5]
         jlpt = row[6]
-        nos = row[7]
+        nos = float(row[7]) if row[7] else 0
         rad = row[8]
         # print(kan, on, kun, m, ex, jlpt, nos, rad)
 
@@ -47,8 +47,8 @@ def run():
         except:
             r = None
 
-        k = Kanji(kanji=kan, onyomi=on, kunyomi=kun, meaning=m, examples=ex, jlpt_level=jlpt, no_of_strokes=nos,
+        k = Kanji.objects.get_or_create(kanji=kan, onyomi=on, kunyomi=kun, meaning=m, examples=ex, jlpt_level=jlpt, no_of_strokes=nos,
                   radical=r)
-        k.save()
+        # k.save()
 
 

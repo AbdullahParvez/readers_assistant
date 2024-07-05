@@ -23,6 +23,14 @@
             float: left;
             font-size: 40px;
         }
+        .word_div {
+            width: fit-content;
+            height: fit-content;
+            float: left;
+            font-size: 20px;
+            margin: 5px;
+            color: rgb(64, 49, 230);
+        }
         </style>
     </head>
     <body>
@@ -84,11 +92,14 @@
                         <h6 id="k_meaning"></h6>
                         <h6 id="k_jlpt"></h6>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <h3 id="radical"></h3>
                         <h6 id="r_meaning"></h6>
                         <h6 id="r_readings"></h6>
                         <h6 id="r_alternative"></h6>
+                    </div>
+                    <div id="previous_word" class="col-md-2">
+
                     </div>
                 </div>
                 <div class="row">
@@ -149,6 +160,7 @@
         </div>
         {{ word|json_script:"word" }}
         <script>
+    previous_word = []
     const data_cont = document.getElementById('data').innerHTML;
     function getCookie(name) {
         let cookieValue = null;
@@ -194,6 +206,20 @@
         .then(data => {
             if (data.success){
                 document.getElementById('data').innerHTML=data_cont;
+                let previous_word_div = document.getElementById('previous_word');
+                previous_word_div.innerHTML = '';
+                for (let i=0; i<previous_word.length; i++){
+                    let div =document.createElement('div');
+                    div.className = "word_div";
+                    let url = document.createElement('a');
+                    url.onclick = function(){
+                        search(previous_word[i]);
+                    };
+                    url.innerText = previous_word[i];
+                    div.appendChild(url);
+                    previous_word_div.appendChild(div);
+                }
+                previous_word.push(kanji);
                 kanji_data(data['context']);
             }else{
                 document.getElementById('data').innerHTML='';

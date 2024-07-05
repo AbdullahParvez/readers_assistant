@@ -83,7 +83,7 @@ def get_kanji_info(word):
         k = Kanji.objects.get(kanji=word[0])
 
         share_same_radical = []
-        if k.kanji != k.radical.radical:
+        if k.radical and k.kanji != k.radical.radical:
             same_radical = Kanji.objects.filter(radical=k.radical).defer(
                 'kanji').order_by('jlpt_level')
             # print(same_radical)
