@@ -55,7 +55,7 @@ def details_book(request, id):
 class BookDelete(LoginRequiredMixin, DeleteView):
     model = Book
     success_url ="/"
-     
+
     template_name = "book/confirm_delete.html"
 
 
