@@ -16,3 +16,8 @@ def home(request):
         'book_list':book_list
     }
     return render(request, "home/index.html", context=context)
+
+
+def policy(request):
+    '''rendering home view'''
+    return render(request, "home/privacy_policy.html")
