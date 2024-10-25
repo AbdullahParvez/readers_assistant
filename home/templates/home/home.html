@@ -1,0 +1,39 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+
+{% block page_specific_css %}
+<!-- Add any page-specific CSS here -->
+{% endblock page_specific_css %}
+
+{% block body %}
+<!-- Section -->
+<section>
+    <div class="row">
+        <div class="col-8">
+            <header class="major">
+                <h2>Articles</h2>
+            </header>
+        </div>
+    </div>
+
+    <div class="posts">
+        <article>
+			<ul>
+				{% for article in article_list %}
+				<li><a href="{% url 'article:view_article' pk=article.id %}"><h4>{{ article.title }}</h4></a></li>
+				<!-- <a href="#" class="image"><img src="media/images/pic01.jpg" alt="" /></a> -->
+				<!-- <li><a href="{% url 'article:view_article' pk=article.id %}" class="button"><h4>{{ article.title }}</h4></a></li> -->
+				<!-- <ul class="actions">
+					<li><a href="{% url 'article:view_article' pk=article.id %}" class="button">Read</a></li>
+				</ul> -->
+				{% endfor %}
+                <li><a href=""><h4>the home owner</h4></a></li>
+                <li><a href=""><h4>Kajer meye romila</h4></a></li>
+                <li><a href=""><h4>ki hoyeche tomar</h4></a></li>
+			</ul>
+		</article>
+    </div>
+</section>
+{% endblock body %}

@@ -2,13 +2,16 @@
 from rest_framework_mongoengine.generics import ListAPIView
 from ..serializers import VocabSerializer
 from jmdict.models import Dictionary_Entry
+# from sudachipy import tokenizer
+# from sudachipy import dictionary
 # from rest_framework.response import Response
 
 from mongoengine import *
 from mongoengine.queryset.visitor import Q
 
 connect('jmdict')
-
+# tokenizer_obj = dictionary.Dictionary(dict_type='core').create()
+# mode = tokenizer.Tokenizer.SplitMode.A
 
 # def get_word_details(vocab):
 #     '''retrieve and rearrange meaning of a word'''
@@ -50,6 +53,14 @@ class GetVocabDetails(ListAPIView):
 
     def get(self, request, vocab, *args, **kwargs):
         self.queryset = Dictionary_Entry.objects(Q(k_ele__exact=vocab)|Q(r_ele__exact=vocab))
+        # for q in self.queryset:
+        #     for s in q.sense:
+        #         for e in s.example:
+        #             sent_jpn = e.ex_sent_jpn
+        #             tokenize_words = tokenizer_obj.tokenize(sent_jpn, mode)
+        #             print(tokenize_words)
+        #             print(e.ex_sent_jpn)
+        # print(self.queryset[0].sense[0].example[0].ex_sent_jpn)
         return self.list(request, *args, **kwargs)
     
     # def get(self, request, vocab, format=None):

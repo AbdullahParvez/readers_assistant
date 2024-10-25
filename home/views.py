@@ -6,8 +6,17 @@ from book.models import Book
 
 # Create your views here.
 
-@login_required
+
 def home(request):
+    '''rendering home view'''
+    article_list = Article.objects.filter(is_public=True)
+    context = {
+        'article_list':article_list,
+    }
+    return render(request, "home/home.html", context=context)
+
+@login_required
+def index(request):
     '''rendering home view'''
     article_list = request.user.articles.all()
     book_list = request.user.books.all()

@@ -11,9 +11,11 @@ class ArticleForm(forms.ModelForm):
         fields = [
             'title',
             'content',
+            'is_public'
         ]
 
     title = forms.CharField(widget=forms.TextInput())
+    is_public = forms.BooleanField(required=False ,widget=forms.CheckboxInput(), label='Public')
 
 
 # def __init__(self, *args, **kwargs):

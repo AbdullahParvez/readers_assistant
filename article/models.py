@@ -7,6 +7,8 @@ class Article(models.Model):
     user = models.ForeignKey(user, on_delete=models.CASCADE, related_name='articles')
     title = models.CharField(max_length=255)
     content = HTMLField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_public = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.title

@@ -21,13 +21,13 @@ class ArticleCreate(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
-        return redirect("home:home")
+        return redirect("home:index")
     
 def sorting(lst):
     lst2 = sorted(lst, key=len, reverse=True)
     return lst2   
 
-class ArticleView(LoginRequiredMixin, DetailView):
+class ArticleView(DetailView):
     model = Article
     template_name = 'article/article_details.html'
 

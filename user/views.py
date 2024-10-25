@@ -66,7 +66,7 @@ def login_page(request):
 
 def logout(request):
     django_logout(request)
-    return redirect('user:login_page')
+    return redirect('home:home')
 
 def login(request):
     if request.method == 'POST':
@@ -74,13 +74,13 @@ def login(request):
         if form.is_valid():
             email = request.POST.get('email')
             password = request.POST.get('password')
-            print(email, password)
+            # print(email, password)
             user = django_authenticate(username=email, password=password)
-            print(user)
+            # print(user)
             if user is not None:
                 if user.is_active:
                     django_login(request,user)
-                    return redirect('home:home') #user is redirected to dashboard
+                    return redirect('home:index') #user is redirected to dashboard
             else:
                 # form = LoginForm()
                 return redirect('user:login_page')
@@ -99,7 +99,7 @@ def register(request):
             user = form.save()
             django_login(request, user)
             messages.success(request, "Registration successful." )
-            return redirect("home:home")
+            return redirect("home:index")
         messages.error(request, "Unsuccessful registration. Invalid information.")
     else:
         # form = LoginForm()

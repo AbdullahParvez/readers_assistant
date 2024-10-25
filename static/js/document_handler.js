@@ -169,7 +169,7 @@ var document_handler = function () {
                 }
             })
             .catch((error) => {
-                // console.error('Error:', error);
+                console.error('Error:', error);
                 message = "問題が起こりました。もう一度お願いします。";
                 // base.alert_message(message);
                 console.log(message);
