@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 user = get_user_model()
 
 class Article(models.Model):
-    user = models.ForeignKey(user, on_delete=models.CASCADE, related_name='articles')
+    creator = models.ForeignKey(user, on_delete=models.CASCADE, related_name='articles')
     title = models.CharField(max_length=255)
     content = HTMLField()
     created_at = models.DateTimeField(auto_now_add=True)

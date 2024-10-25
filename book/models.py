@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 user = get_user_model()
 
 class Book(models.Model):
-    user = models.ForeignKey(user, on_delete=models.CASCADE, related_name='books')
+    creator = models.ForeignKey(user, on_delete=models.CASCADE, related_name='books')
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=100, null=True, blank=True)
 

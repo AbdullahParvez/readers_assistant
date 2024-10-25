@@ -97,12 +97,14 @@
     <header class="main">
         <div class="row">
             <div class="col-6">
-                <h3>{{ object.title }}</h3>
+                <h3>{{ object.title }}{{  request.user.is_authenticated }}</h3>
             </div>
+            {% if request.user.is_authenticated and request.user == object.creator %}
             <div class="col-6" style="text-align: right;">
                 <a href="{% url 'article:update_article' pk=object.id %}"><button>Update</button></a>
                 <a href="{% url 'article:delete_article' pk=object.id %}"><button>Delete</button></a>
             </div>
+            {% endif %}
         </div>
     </header>
 
