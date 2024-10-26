@@ -17,9 +17,6 @@ class Dictionary_Entry(Document):
     sense = ListField(EmbeddedDocumentField(Sense))
 
 
-
-
-
 # from djangotoolbox.fields import ListField, EmbeddedModelField
 
 # # Create your models here.
