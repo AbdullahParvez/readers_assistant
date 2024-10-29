@@ -36,10 +36,12 @@ class VocabSerializer(DocumentSerializer):
             e_c = 0
             for example in sense['example']:
                 sen_token = tokenizer_obj.tokenize(example['ex_sent_jpn'], modeC)
-                sent_dic = {}
+                # sent_dic = {}
+                word_list = []
                 for tok in sen_token:
-                    sent_dic[str(tok)]=tok.dictionary_form()
-                representation['sense'][s_c]['example'][e_c]['tokens']=sent_dic
+                    word_list.append([str(tok), tok.dictionary_form()])
+                    # sent_dic[str(tok)]=tok.dictionary_form()
+                representation['sense'][s_c]['example'][e_c]['tokens']=word_list
                 e_c+=1
             s_c+=1
         return representation
