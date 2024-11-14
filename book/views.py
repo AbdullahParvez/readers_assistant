@@ -36,8 +36,8 @@ def create_book(request):
     if request.method == "POST":
         title = request.POST['title']
         author = request.POST['author']
-        Book.objects.get_or_create(title=title, author=author, user=request.user)
-        return redirect("home:home")
+        Book.objects.get_or_create(title=title, author=author, creator=request.user)
+        return redirect("home:index")
 
 
 @login_required
@@ -152,7 +152,7 @@ def remove_from_favourite_word(request):
         Favourite.objects.filter(chapter=chapter, word=word, no=no).delete()
         return JsonResponse({"success": True}, status=200)
     return JsonResponse({"success": False}, status=400)
-    
+
 
 @login_required
 def create_note(request):
